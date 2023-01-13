@@ -2,7 +2,7 @@
 This is a rough implementation with very limited functionality.
 
 # Introduction
-Mechvibes Lite is a CLI version of [Mechvibes](https://github.com/hainguyents13/mechvibes), focused on lower memory usage. It doesn't make use of Electron for as basic program as this; I tend to believe that Electron is meant for much more bigger projects. As of now, I have only tested it on Windows, but the libraries I have used should be cross-platform. I have a few crucial tasks to be done, once those are finished, I will work on this project to try to minimise the memory usage further, and to make it much functionable and object-oriented.
+Mechvibes Lite is a CLI version of [Mechvibes](https://github.com/hainguyents13/mechvibes), focused on lower memory usage. It doesn't make use of Electron for as basic program as this; I tend to believe that Electron is meant for much more bigger projects. As of now, I have only tested it on Windows, but the libraries I have used should be cross-platform. I have a few crucial tasks to be done, once those are finished, I will work on this project to try to minimise the memory usage further, and to make it much functional and object-oriented.
 
 # How to Use
 If you want to use a default configuration provided by Mechvibes, go to the `default_configs` folder, pick your configuration, open the folder, copy the files to `active_config` (after deleting all the files in the `active_config` folder).
