@@ -31,7 +31,7 @@ closed = False
 
 MODE = CONFIG["key_define_type"]
 if MODE == "multi":
-    sfxes = listdir("pack")
+    sfxes = listdir("active_config")
     sfxes.remove("config.json")
     db = {i: pyglet.media.load(path.join(sys.path[0], f"active_config/{i}"), streaming=False) for i in sfxes}
 else:
