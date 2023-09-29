@@ -1,5 +1,7 @@
 # Note
 This is a rough implementation with very limited functionality.
+## Linux Support
+The API to get keyboard press states on Linux only works if you run it as root. If you run the script as root, chances are that your sound server will not work on the root account without considerable changes being made. I have found a solution to all this, I will work on it soon.
 
 # Introduction
 Mechvibes Lite is a CLI version of [Mechvibes](https://github.com/hainguyents13/mechvibes), focused on lower memory usage. It doesn't make use of Electron for as basic program as this; I tend to believe that Electron is meant for much more bigger projects. As of now, I have only tested it on Windows, but the libraries I have used should be cross-platform. I have a few crucial tasks to be done, once those are finished, I will work on this project to try to minimise the memory usage further, and to make it much functional and object-oriented.
