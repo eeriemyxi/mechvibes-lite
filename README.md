@@ -1,7 +1,6 @@
 # Note
-THE PROJECT IS GOING THROUGH MAJOR CHANGES, IT DOES NOT WORK. DO NOT USE IT FOR NOW.
+This is a rewrite that I sometimes work on. It is unfinished and currently does not work.
 
-This is a rough implementation with very limited functionality.
 ## Linux Support
 The API to get keyboard press states on Linux only works if you run it as root. If you run the script as root, chances are that your sound server will not work on the root account without considerable changes being made. I have found a solution to all this, I will work on it soon.
 
