@@ -1,110 +1,109 @@
-from os import get_terminal_size, listdir, path
-
-from rich import print
-from rich.console import Console
-console = Console()
-
-import console_setup
-
-console_setup.clear_screen()
-print("\n" * (get_terminal_size().lines // 2 - 1))
-console.print("[yellow][ LOADING... ][/yellow]", justify="center")
-
-from json import load as load_json
-from random import choice as pick_one_randomly
+import functools
+import json
+import os
+import os.path
 import sys
+import time
 from threading import Thread
-from time import sleep, time
 
 import pyglet.app
 import pyglet.media
 
-import keyboard
+if sys.platform == "win32":
+    import keyboard
+elif sys.platform == "linux":
+    import evdev
+    try:
+        EVENT = int(sys.argv[1])
+    except IndexError:
+        raise Exception("(Linux) You are expected to pass the device event number as a command line argument.")
 
-
-with open(path.join(sys.path[0], "active_config/config.json"), "r") as config_file_buffer:
-    CONFIG = load_json(config_file_buffer)
+with open(
+    os.path.join(sys.path[0], "active_config/config.json"), "r"
+) as config_file_buffer:
+    CONFIG = json.load(config_file_buffer)
 
 keyboard_states = {}
-fixes = {"alt gr": "56", "left windows": "3675", "menu": "3613"}
-closed = False
 
 MODE = CONFIG["key_define_type"]
 if MODE == "multi":
-    sfxes = listdir("active_config")
+    sfxes = os.listdir("active_config")
     sfxes.remove("config.json")
-    db = {i: pyglet.media.load(path.join(sys.path[0], f"active_config/{i}"), streaming=False) for i in sfxes}
+    db = {}
+    for fx in sfxes:
+        path = os.path.join(sys.path[0], f"active_config/{fx}")
+        db[fx] = pyglet.media.load(
+                path, streaming=False
+            )
 else:
     db = {k: tuple(v) for k, v in (i for i in CONFIG["defines"].items() if i[1])}
     filename = CONFIG["sound"]
-    player = pyglet.media.load(path.join(sys.path[0], f"active_config/{filename}"), streaming=False)
+    sound_source = pyglet.media.load(
+        os.path.join(sys.path[0], f"active_config/{filename}"), streaming=False
+    )
 
-console_setup.set_title()
-
-
-def print_started():
-    size = None
-    while True:
-        sleep(1)
-
-        if closed:
-            exit()
-        if size and size == get_terminal_size().lines // 2 - 1:
-            continue
-        else:
-            size = get_terminal_size().lines // 2 - 1
-
-        console_setup.clear_screen()
-        print("\n" * size)
-        console.print("[green][ STARTED ][/green]", justify="center")
-        print("\n" * (size - 1))
-
-console.bell()
-Thread(target=print_started).start()
+print("Now monitoring for keyboard events. Please try pressing keys.")
 
 
-def on_hook(event):
+def handler_windows_on_hook(keyboard_states, event):
     key_code = event.scan_code
-
-    keyboard_states = globals()["keyboard_states"]
-    if key_code in keyboard_states and keyboard_states[key_code] == "down":
-        keyboard_states[key_code] = event.event_type
-        return
     keyboard_states[key_code] = event.event_type
 
-    if MODE == "multi":
-        try:
-            Thread(target=db[CONFIG["defines"][str(key_code)]].play).start()
-        except KeyError:
-            Thread(target=db[CONFIG["defines"][fixes[event.name]]].play).start()
-    else:
-        try:
+    if key_code in keyboard_states and keyboard_states[key_code] == "down":
+        return
+
+    try:
+        if MODE == "multi":
+            Thread(
+                target=db[CONFIG["defines"][str(key_code)]].play, daemon=True
+            ).start()
+        else:
             timers = db[str(key_code)]
-        except KeyError:
-            timers = db[fixes[event.name]]
-        Thread(
-            target=play_sfx,
-            args=(player.play(), *timers),
-            daemon=True,
-        ).start()
+            Thread(
+                target=play_sfx,
+                args=(player.play(), *timers),
+                daemon=True,
+            ).start()
+    except KeyError:
+        ...
 
 
-def play_sfx(player, start, end):
+def handler_linux_on_hook(event):
+    if event.type == evdev.ecodes.EV_KEY:
+        key = evdev.categorize(event)
+        if key.keystate == 1:
+            try:
+                if MODE == "multi":
+                    src = db[CONFIG["defines"][str(key.scancode)]]
+                    src.volume = 5.0
+                    src.play()
+                else:
+                    timers = db[str(key.scancode)]
+                    Thread(target=play_sfx, args=(sound_source.play(), *timers), daemon=True).start()
+            except KeyError:
+                ...
+
+
+def play_sfx(player, start, end, *, should_exit: bool=False):
     if (start, end) != (0, 0):
-        player.seek(start * 0.001)
+        player.seek(start / 1000)
         player.play()
-        sleep(end * 0.001)
-    player.volume = 0
-    player.next_source()
-    sys.exit()
+        time.sleep(end / 1000)
+
+    player.delete()
+
+    if should_exit:
+        sys.exit()
 
 
-keyboard.hook(on_hook)
-try:
-    pyglet.app.run()
-except KeyboardInterrupt:
-    closed = True
-    console_setup.clear_screen()
-    print("\n" * (get_terminal_size().lines // 2 - 1))
-    console.print("[red][ CLOSING... ][/red]", justify="center")
-    sys.exit()
+def main():
+    if sys.platform == "win32":
+        keyboard.hook(functools.partial(handler_windows_on_hook, keyboard_states))
+    elif sys.platform == "linux":
+        dev = evdev.InputDevice(f"/dev/input/event{EVENT}")
+
+        for event in dev.read_loop():
+            handler_linux_on_hook(event)
+
+Thread(target=main, daemon=True).start()
+pyglet.app.run()
