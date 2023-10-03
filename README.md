@@ -1,4 +1,6 @@
 # Note
+THE PROJECT IS GOING THROUGH MAJOR CHANGES, IT DOES NOT WORK. DO NOT USE IT FOR NOW.
+
 This is a rough implementation with very limited functionality.
 ## Linux Support
 The API to get keyboard press states on Linux only works if you run it as root. If you run the script as root, chances are that your sound server will not work on the root account without considerable changes being made. I have found a solution to all this, I will work on it soon.
@@ -10,5 +12,5 @@ Mechvibes Lite is a CLI version of [Mechvibes](https://github.com/hainguyents13/
 If you want to use a default configuration provided by Mechvibes, go to the `default_configs` folder, pick your configuration, open the folder, copy the files to `active_config` (after deleting all the files in the `active_config` folder).
 
 # Known Issues
-- Its sound player is not as powerful as of a whole goddamn Chromium browser, so try to use popular audio formats. I observed that creators of some configurations in the Discord server of Mechvibes merely rename video files as audio files which works well for the Electron app, but won't on this one. In the future there will be a pretty and elegant configuration chooser and auto-conversion of files using FFMPEG.
+- The sound player is not as powerful as of a Chromium instance, so try to use popular audio formats. I observed that creators of some configurations in the Discord server of Mechvibes merely rename video files as audio files which works well for the that Electron app, but won't on this one. In the future there will be a pretty and elegant configuration chooser and auto-conversion of files using FFMPEG.
 - Due to unknown reasons, on initialization of the program, it will use ~55MB RAM but eventually this will drop to less than 25 MB (depends on various things including the audio files of the config; those are loaded in RAM). I will work on this later.

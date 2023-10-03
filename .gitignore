@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 __old__main__.py
-new
+/new
