@@ -8,13 +8,10 @@ from impl.struct.audio import DirectAudio, LocativeAudio
 
 
 class ConfigParser:
-    def __init__(
-        self, base_path: Path, theme_path: Path, config_path: Path, audio_handler
-    ):
+    def __init__(self, base_path: Path, theme_dir_name: str, config_file_name: str):
         self.base_path = base_path
-        self.theme_path = theme_path
-        self.config_path = config_path
-        self.audio_handler = audio_handler
+        self.theme_path = self.base_path / theme_dir_name
+        self.config_path = self.theme_path / config_file_name
 
         self.config = self.parse_config(self.config_path)
 
@@ -37,15 +34,18 @@ class ConfigParser:
     def iter_audio_indices(self):
         if self.audio_mode == constants.ThemeAudioMode.MULTI:
             for code, filename in self.config["defines"].items():
-                if filename[filename.index("."):] in constants.SUPPORTED_AUDIO_FORMATS:
+                if (
+                    filename
+                    and filename[filename.index(".") :]
+                    in constants.SUPPORTED_AUDIO_FORMATS
+                ):
                     audio_path = self.theme_path / filename
                     yield DirectAudio(
-                        playable=pyglet.media.Source(audio_path, streaming=False),
+                        playable=pyglet.media.load(audio_path, streaming=False),
                         path=audio_path,
-                        keycode=code,
+                        scancode=int(code),
                     )
         elif self.audio_mode == constants.ThemeAudioMode.SINGLE:
             for code, timeline in self.config["defines"].items():
-                yield LocativeAudio(
-                    self.audio_handler.sfx_pack_source, timeline=timeline, keycode=code
-                )
+                if timeline:
+                    yield LocativeAudio(timeline=timeline, scancode=int(code))

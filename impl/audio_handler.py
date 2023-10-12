@@ -1,15 +1,18 @@
-from impl import constants
-import pyglet.media
 import time
 from threading import Thread
+
+import pyglet.media
+
+from impl import constants
 
 
 class AudioHandler:
     def __init__(self, parser):
         self.parser = parser
         self.addressed_audio_indices = {
-            item.keycode: item for item in self.parser.iter_audio_indices()
+            item.scancode: item for item in self.parser.iter_audio_indices()
         }
+        print(self.addressed_audio_indices)
 
     @property
     def sfx_pack_source(self):
@@ -25,7 +28,11 @@ class AudioHandler:
     ):
         if self.parser.audio_mode == constants.ThemeAudioMode.SINGLE:
             if run_in_thread:
-                thread = Thread(target=self._play_and_seek, args=(playable, *self.timeline), daemon=True)
+                thread = Thread(
+                    target=self._play_and_seek,
+                    args=(playable, *self.timeline),
+                    daemon=True,
+                )
                 thread.start()
             else:
                 self._play_and_seek(playable, *self.timeline)

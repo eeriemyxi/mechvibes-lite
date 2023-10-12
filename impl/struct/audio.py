@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import typing as t
 from dataclasses import dataclass
 
@@ -11,11 +13,11 @@ if t.TYPE_CHECKING:
 class DirectAudio:
     playable: Source
     path: Path
-    keycode: int
+    scancode: int
 
 
 @dataclass
 class LocativeAudio:
     playable: Source
     timeline: (int, int)
-    keycode: int
+    scancode: int

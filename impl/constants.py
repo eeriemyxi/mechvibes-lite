@@ -30,9 +30,9 @@ elif sys.platform == "linux":
 elif sys.platform == "win32":
     PLATFORM = Platform.WIN32
 
-SUPPORTED_PLATFORMS: tuple[Platform] = (Platform.LINUX, Platform.WIN32)
-SUPPORTED_AUDIO_FORMATS = (".wav", ".mp3", ".ogg", ".flac")
+SUPPORTED_PLATFORMS: tuple[Platform] = (Platform.LINUX,)
+SUPPORTED_AUDIO_FORMATS: tuple[str] = (".wav", ".mp3", ".ogg", ".flac")
 
-SCRIPT_DIRECTORY = sys.path[0]
-THEME_DIR_NAME = "active_config"
-CONFIG_FILE_NAME = "config.json"
+SCRIPT_DIRECTORY: str = sys.path[0]
+THEME_DIR_NAME: str = "active_config"
+CONFIG_FILE_NAME: str = "config.json"

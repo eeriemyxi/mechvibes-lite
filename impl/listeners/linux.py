@@ -6,14 +6,29 @@ from impl import constants
 
 
 class LinuxListener:
-
     def __init__(self, event_path, event_code, audio_handler):
         self.event_path = event_path
         self.event_code = event_code
         self.audio_handler = audio_handler
-        self.device_path = str(event_path / f'event{event_code}')
+        self.device_path = str(event_path / f"event{event_code}")
         self.device = evdev.InputDevice(self.device_path)
 
-    def listen():
+    def listen(self):
         for event in self.device.read_loop():
-            if event.type == evdev.ecodes.
+            if event.type == evdev.ecodes.EV_KEY:
+                key = evdev.categorize(event)
+
+                if key.keystate == evdev.KeyEvent.key_down:
+                    if (
+                        self.audio_handler.parser.audio_mode
+                        == constants.ThemeAudioMode.SINGLE
+                    ):
+                        ...
+                    elif (
+                        self.audio_handler.parser.audio_mode
+                        == constants.ThemeAudioMode.MULTI
+                    ):
+                        struct = self.audio_handler.addressed_audio_indices[
+                            key.scancode
+                        ]
+                        self.audio_handler.play(struct.playable)

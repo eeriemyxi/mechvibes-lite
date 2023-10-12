@@ -1,4 +1,5 @@
 import sys
+from pathlib import Path
 from threading import Thread
 
 import pyglet.app
@@ -21,7 +22,7 @@ class App:
             raise NotImplementedError("Operating system unsupported.")
 
         parser = ConfigParser(
-            constants.SCRIPT_DIRECTORY,
+            Path(constants.SCRIPT_DIRECTORY),
             constants.THEME_DIR_NAME,
             constants.CONFIG_FILE_NAME,
         )
@@ -31,7 +32,10 @@ class App:
             case constants.Platform.DARWIN:
                 ...
             case constants.Platform.LINUX:
-                ...
+                listener = LinuxListener(
+                    constants.EVENT_PATH, constants.EVENT_CODE, audio_handler
+                )
+                listener.listen()
             case constants.Platform.WIN32:
                 ...
             case _:
