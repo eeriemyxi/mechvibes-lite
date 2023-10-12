@@ -1,5 +1,6 @@
 class ListenerNotFound(Exception):
     ...
 
+
 class EventNumberNotProvided(Exception):
     ...
