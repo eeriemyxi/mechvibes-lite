@@ -37,7 +37,7 @@ class ConfigParser:
     def iter_audio_indices(self):
         if self.audio_mode == constants.ThemeAudioMode.MULTI:
             for code, filename in self.config["defines"].items():
-                if filename[filename.index(".") :] in constants.SUPPORTED_AUDIO_FORMATS:
+                if filename[filename.index("."):] in constants.SUPPORTED_AUDIO_FORMATS:
                     audio_path = self.theme_path / filename
                     yield DirectAudio(
                         playable=pyglet.media.Source(audio_path, streaming=False),
