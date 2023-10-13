@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "mechvibes-lite"
+version = "2.1.0"
+description = "Lightweight CLI version of Mechvibes by hainguyents13 using Python."
+authors = ["eeriemyxi <eeriemyxi@proton.me>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+keyboard = { version = "^0.13.5", markers = "sys_platform == 'win32'" }
+pyglet = "^2.0.9"
+rich = "^13.6.0"
+evdev = { version = "^1.6.1", markers = "sys_platform == 'linux'" }
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

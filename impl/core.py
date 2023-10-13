@@ -22,12 +22,11 @@ class App:
             raise NotImplementedError("Operating system unsupported.")
 
         parser = ConfigParser(
-            Path(constants.SCRIPT_DIRECTORY),
+            Path(constants.SCRIPT_DIRECTORY_PATH),
             constants.THEME_DIR_NAME,
             constants.CONFIG_FILE_NAME,
         )
         audio_handler = AudioHandler(parser)
-        print(type(audio_handler.sfx_pack_source))
 
         match platform:
             case constants.Platform.DARWIN:
@@ -48,7 +47,7 @@ class App:
 
         return True
 
-    def on_event_loop_start(self, platform):
+    def on_pyglet_event_loop_start(self, platform):
         Thread(
             target=self.instigate_listener,
             args=(platform,),
@@ -56,9 +55,9 @@ class App:
             daemon=True,
         ).start()
 
-    def run_pyglet_event_loop(self, platform: constants.Platform):
+    def run(self, platform: constants.Platform):
         event_loop = pyglet.app.EventLoop()
-        event_loop.on_enter = partial(self.on_event_loop_start, platform)
+        event_loop.on_enter = partial(self.on_pyglet_event_loop_start, platform)
         event_loop.run()
 
     def platform_is_supported(self, platform: constants.Platform) -> bool:

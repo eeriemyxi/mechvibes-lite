@@ -15,7 +15,7 @@ class AudioHandler:
         self.sfx_pack_source = self.get_sfx_pack_source()
 
     def get_sfx_pack_source(self):
-        if constants.ThemeAudioMode.SINGLE:
+        if self.parser.audio_mode == constants.ThemeAudioMode.SINGLE:
             return pyglet.media.load(str(self.parser.sfx_pack_path), streaming=False)
 
     def play(

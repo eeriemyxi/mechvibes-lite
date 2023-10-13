@@ -1,11 +1,13 @@
+from __future__ import annotations
 import json
-from pathlib import Path
 
 import pyglet.media
 
 from impl import constants
 from impl.struct.audio import DirectAudio, LocativeAudio
-
+import typing as t
+if t.TYPE_CHECKING:
+    from pathlib import Path
 
 class ConfigParser:
     def __init__(self, base_path: Path, theme_dir_name: str, config_file_name: str):
@@ -19,7 +21,7 @@ class ConfigParser:
     def audio_mode(self) -> constants.ThemeAudioMode:
         if self.config["key_define_type"] == "multi":
             return constants.ThemeAudioMode.MULTI
-        else:
+        elif self.config["key_define_type"] == "single":
             return constants.ThemeAudioMode.SINGLE
 
     @property

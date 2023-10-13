@@ -1,19 +1,19 @@
 import sys
-from enum import Enum
+from enum import Enum, auto
 from pathlib import Path
 
 from impl.errors import EventNumberNotProvided
 
 
 class ThemeAudioMode(Enum):
-    SINGLE = 1
-    MULTI = 2
+    SINGLE = auto()
+    MULTI = auto()
 
 
 class Platform(Enum):
-    DARWIN = 1
-    LINUX = 2
-    WIN32 = 3
+    DARWIN = auto()
+    LINUX = auto()
+    WIN32 = auto()
 
 
 if sys.platform == "darwin":
@@ -24,7 +24,9 @@ elif sys.platform == "linux":
         EVENT_PATH = Path("/dev/input")
     except IndexError:
         raise EventNumberNotProvided(
-            "(Linux) You must pass device event number of a keyboard as a command line argument"
+            "(Linux) You must pass device event number of a keyboard "
+            "as a command line argument. Please follow the instructions in README.md "
+            "given for Linux users."
         )
     PLATFORM = Platform.LINUX
 elif sys.platform == "win32":
@@ -33,6 +35,6 @@ elif sys.platform == "win32":
 SUPPORTED_PLATFORMS: tuple[Platform] = (Platform.LINUX,)
 SUPPORTED_AUDIO_FORMATS: tuple[str] = (".wav", ".mp3", ".ogg", ".flac")
 
-SCRIPT_DIRECTORY: str = sys.path[0]
+SCRIPT_DIRECTORY_PATH: str = sys.path[0]
 THEME_DIR_NAME: str = "active_config"
 CONFIG_FILE_NAME: str = "config.json"
