@@ -3,9 +3,10 @@ from pathlib import Path
 import evdev
 
 from impl import constants
+from impl.abc.listener import AbstractListener
 
 
-class LinuxListener:
+class LinuxListener(AbstractListener):
     def __init__(self, event_path, event_code, audio_handler):
         self.event_path = event_path
         self.event_code = event_code
@@ -23,7 +24,15 @@ class LinuxListener:
                         self.audio_handler.parser.audio_mode
                         == constants.ThemeAudioMode.SINGLE
                     ):
-                        ...
+                        struct = self.audio_handler.addressed_audio_indices[
+                            key.scancode
+                        ]
+                        print(type(self.audio_handler.sfx_pack_source))
+                        self.audio_handler.play(
+                            self.audio_handler.sfx_pack_source,
+                            struct.timeline,
+                            run_in_thread=False,
+                        )
                     elif (
                         self.audio_handler.parser.audio_mode
                         == constants.ThemeAudioMode.MULTI

@@ -12,12 +12,12 @@ class AudioHandler:
         self.addressed_audio_indices = {
             item.scancode: item for item in self.parser.iter_audio_indices()
         }
-        print(self.addressed_audio_indices)
+        self.sfx_pack_source = self.get_sfx_pack_source()
 
-    @property
-    def sfx_pack_source(self):
+    def get_sfx_pack_source(self):
         if constants.ThemeAudioMode.SINGLE:
-            return pyglet.media.load(self.parser.sfx_pack_path, streaming=False)
+            print(self.parser.sfx_pack_path)
+            return pyglet.media.load(self.parser.sfx_pack_path, streaming=True)
 
     def play(
         self,
@@ -48,6 +48,12 @@ class AudioHandler:
         player.seek(start / 1000)
         player.play()
 
-        time.sleep(end / 1000)
+        print(
+            start / 1000,
+            end / 1000,
+            start / 1000 + end / 1000,
+            start / 1000 - end / 1000,
+        )
+        time.sleep(start / 1000 - end / 1000)
 
         player.delete()

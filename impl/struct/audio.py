@@ -18,6 +18,5 @@ class DirectAudio:
 
 @dataclass
 class LocativeAudio:
-    playable: Source
     timeline: (int, int)
     scancode: int
