@@ -27,11 +27,10 @@ class LinuxListener(AbstractListener):
                         struct = self.audio_handler.addressed_audio_indices[
                             key.scancode
                         ]
-                        print(type(self.audio_handler.sfx_pack_source))
                         self.audio_handler.play(
                             self.audio_handler.sfx_pack_source,
-                            struct.timeline,
-                            run_in_thread=False,
+                            timeline=struct.timeline,
+                            run_in_thread=True,
                         )
                     elif (
                         self.audio_handler.parser.audio_mode

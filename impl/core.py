@@ -49,17 +49,16 @@ class App:
         return True
 
     def on_event_loop_start(self, platform):
-        print(platform)
         Thread(
             target=self.instigate_listener,
-            args=platform,
+            args=(platform,),
             kwargs=dict(run_in_thread=True),
             daemon=True,
         ).start()
 
     def run_pyglet_event_loop(self, platform: constants.Platform):
         event_loop = pyglet.app.EventLoop()
-        event_loop.on_enter = partial(self.on_event_loop_start, (platform,))
+        event_loop.on_enter = partial(self.on_event_loop_start, platform)
         event_loop.run()
 
     def platform_is_supported(self, platform: constants.Platform) -> bool:

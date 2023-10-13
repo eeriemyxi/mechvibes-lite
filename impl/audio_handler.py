@@ -16,8 +16,7 @@ class AudioHandler:
 
     def get_sfx_pack_source(self):
         if constants.ThemeAudioMode.SINGLE:
-            print(self.parser.sfx_pack_path)
-            return pyglet.media.load(self.parser.sfx_pack_path, streaming=True)
+            return pyglet.media.load(str(self.parser.sfx_pack_path), streaming=False)
 
     def play(
         self,
@@ -30,12 +29,12 @@ class AudioHandler:
             if run_in_thread:
                 thread = Thread(
                     target=self._play_and_seek,
-                    args=(playable, *self.timeline),
+                    args=(playable, *timeline),
                     daemon=True,
                 )
                 thread.start()
             else:
-                self._play_and_seek(playable, *self.timeline)
+                self._play_and_seek(playable, *timeline)
         elif self.parser.audio_mode == constants.ThemeAudioMode.MULTI:
             if run_in_thread:
                 Thread(target=playable.play, daemon=True).start()
@@ -48,12 +47,5 @@ class AudioHandler:
         player.seek(start / 1000)
         player.play()
 
-        print(
-            start / 1000,
-            end / 1000,
-            start / 1000 + end / 1000,
-            start / 1000 - end / 1000,
-        )
-        time.sleep(start / 1000 - end / 1000)
-
+        time.sleep(end / 1000)
         player.delete()
