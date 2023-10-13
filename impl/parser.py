@@ -1,13 +1,16 @@
 from __future__ import annotations
+
 import json
+import typing as t
 
 import pyglet.media
 
 from impl import constants
 from impl.struct.audio import DirectAudio, LocativeAudio
-import typing as t
+
 if t.TYPE_CHECKING:
     from pathlib import Path
+
 
 class ConfigParser:
     def __init__(self, base_path: Path, theme_dir_name: str, config_file_name: str):

@@ -1,12 +1,15 @@
 from __future__ import annotations
 
+import typing as t
+
 import evdev
 
 from impl import constants
 from impl.abc.listener import AbstractListener
-import typing as t
+
 if t.TYPE_CHECKING:
     from pathlib import Path
+
     from impl.audio import AudioHandler
 
 
