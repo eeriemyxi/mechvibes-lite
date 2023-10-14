@@ -58,7 +58,7 @@ class App:
     def run(self, platform: constants.Platform):
         event_loop = pyglet.app.EventLoop()
         event_loop.on_enter = partial(self.on_pyglet_event_loop_start, platform)
-        event_loop.run()
+        event_loop.run(interval=None)
 
     def platform_is_supported(self, platform: constants.Platform) -> bool:
         if platform in constants.SUPPORTED_PLATFORMS:
