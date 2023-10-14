@@ -5,6 +5,7 @@ description = "Lightweight CLI version of Mechvibes by hainguyents13 using Pytho
 authors = ["eeriemyxi <eeriemyxi@proton.me>"]
 license = "MIT"
 readme = "README.md"
+packages = [{ include = "mechvibes" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -12,6 +13,7 @@ keyboard = { version = "^0.13.5", markers = "sys_platform == 'win32'" }
 pyglet = "^2.0.9"
 rich = "^13.6.0"
 evdev = { version = "^1.6.1", markers = "sys_platform == 'linux'" }
+click = "^8.1.7"
 
 [tool.poetry.group.dev]
 optional = true
@@ -20,6 +22,12 @@ optional = true
 pre-commit = "^3.4.0"
 black = "^23.9.1"
 isort = "^5.12.0"
+
+[tool.poetry.scripts]
+mvibes = "mechvibes.impl.cli.core:main"
+
+[tool.isort]
+profile = "black"
 
 [build-system]
 requires = ["poetry-core"]

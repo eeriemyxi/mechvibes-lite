@@ -4,11 +4,11 @@ from threading import Thread
 
 import pyglet.app
 
-from impl import constants
-from impl.audio_handler import AudioHandler
-from impl.errors import ListenerNotFound
-from impl.listeners import DarwinListener, LinuxListener, Win32Listener
-from impl.parser import ConfigParser
+from mechvibes.impl import constants
+from mechvibes.impl.audio_handler import AudioHandler
+from mechvibes.impl.errors import ListenerNotFound
+from mechvibes.impl.listeners import DarwinListener, LinuxListener, Win32Listener
+from mechvibes.impl.parser import ConfigParser
 
 
 class App:
@@ -22,7 +22,7 @@ class App:
             raise NotImplementedError("Operating system unsupported.")
 
         parser = ConfigParser(
-            Path(constants.SCRIPT_DIRECTORY_PATH),
+            constants.SCRIPT_DIRECTORY_PATH,
             constants.THEME_DIR_NAME,
             constants.CONFIG_FILE_NAME,
         )

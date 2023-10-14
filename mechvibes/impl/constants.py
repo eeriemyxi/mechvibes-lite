@@ -2,7 +2,7 @@ import sys
 from enum import Enum, auto
 from pathlib import Path
 
-from impl.errors import EventNumberNotProvided
+from mechvibes.impl.errors import EventNumberNotProvided
 
 
 class ThemeAudioMode(Enum):
@@ -35,6 +35,6 @@ elif sys.platform == "win32":
 SUPPORTED_PLATFORMS: tuple[Platform] = (Platform.LINUX,)
 SUPPORTED_AUDIO_FORMATS: tuple[str] = (".wav", ".mp3", ".ogg", ".flac")
 
-SCRIPT_DIRECTORY_PATH: str = sys.path[0]
+SCRIPT_DIRECTORY_PATH: Path = Path(sys.path[0])
 THEME_DIR_NAME: str = "active_config"
 CONFIG_FILE_NAME: str = "config.json"

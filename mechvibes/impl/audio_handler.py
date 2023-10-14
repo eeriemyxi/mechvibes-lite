@@ -3,7 +3,7 @@ from threading import Thread
 
 import pyglet.media
 
-from impl import constants
+from mechvibes.impl import constants
 
 
 class AudioHandler:

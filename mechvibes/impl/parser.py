@@ -5,8 +5,8 @@ import typing as t
 
 import pyglet.media
 
-from impl import constants
-from impl.struct.audio import DirectAudio, LocativeAudio
+from mechvibes.impl import constants
+from mechvibes.impl.struct.audio import DirectAudio, LocativeAudio
 
 if t.TYPE_CHECKING:
     from pathlib import Path

@@ -4,13 +4,13 @@ import typing as t
 
 import evdev
 
-from impl import constants
-from impl.abc.listener import AbstractListener
+from mechvibes.impl import constants
+from mechvibes.impl.abc.listener import AbstractListener
 
 if t.TYPE_CHECKING:
     from pathlib import Path
 
-    from impl.audio import AudioHandler
+    from mechvibes.impl.audio import AudioHandler
 
 
 class LinuxListener(AbstractListener):
