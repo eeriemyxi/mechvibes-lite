@@ -2,7 +2,10 @@ from mechvibes.impl.constants import PLATFORM
 from mechvibes.impl.core import App
 
 
-def run():
+def run(event_code=None):
     app = App()
 
-    app.run(platform=PLATFORM)
+    if event_code:
+        event_code = int(event_code)
+
+    app.run(platform=PLATFORM, event_code=event_code)

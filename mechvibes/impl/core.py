@@ -13,7 +13,7 @@ from mechvibes.impl.parser import ConfigParser
 
 class App:
     def __init__(self):
-        ...
+        self.event_code = constants.EVENT_CODE
 
     def instigate_listener(
         self, platform: constants.Platform, *, run_in_thread: bool = False
@@ -33,7 +33,7 @@ class App:
                 ...
             case constants.Platform.LINUX:
                 listener = LinuxListener(
-                    constants.EVENT_PATH, constants.EVENT_CODE, audio_handler
+                    constants.EVENT_PATH, self.event_code, audio_handler
                 )
                 if run_in_thread:
                     listener_thread = Thread(target=listener.listen, daemon=True)
@@ -55,7 +55,10 @@ class App:
             daemon=True,
         ).start()
 
-    def run(self, platform: constants.Platform):
+    def run(self, platform: constants.Platform, *, event_code: None | int = None):
+        if event_code:
+            self.event_code = event_code
+
         event_loop = pyglet.app.EventLoop()
         event_loop.on_enter = partial(self.on_pyglet_event_loop_start, platform)
         event_loop.run(interval=None)

@@ -1,3 +1,4 @@
+import os
 import sys
 from enum import Enum, auto
 from pathlib import Path
@@ -20,7 +21,7 @@ if sys.platform == "darwin":
     PLATFORM = Platform.DARWIN
 elif sys.platform == "linux":
     try:
-        EVENT_CODE = int(sys.argv[1])
+        EVENT_CODE = int(sys.argv[-1])
         EVENT_PATH = Path("/dev/input")
     except IndexError:
         raise EventNumberNotProvided(
@@ -35,6 +36,8 @@ elif sys.platform == "win32":
 SUPPORTED_PLATFORMS: tuple[Platform] = (Platform.LINUX,)
 SUPPORTED_AUDIO_FORMATS: tuple[str] = (".wav", ".mp3", ".ogg", ".flac")
 
-SCRIPT_DIRECTORY_PATH: Path = Path(sys.path[0])
+SCRIPT_DIRECTORY_PATH: Path = Path(os.path.dirname(os.path.realpath(__file__))).parents[
+    1
+]
 THEME_DIR_NAME: str = "active_config"
 CONFIG_FILE_NAME: str = "config.json"

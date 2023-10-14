@@ -1,6 +1,6 @@
 import click
 
-# from mechvibes.runner import run as run_mechvibes
+from mechvibes.runner import run as run_mechvibes
 
 
 class ConfigDefinition(click.ParamType):
@@ -18,6 +18,4 @@ def main():
 @click.option("--with", "-w", multiple=True, type=ConfigDefinition())
 def run(**kwargs):
     print(repr(kwargs))
-
-
-#    run_mechvibes()
+    run_mechvibes(event_code=kwargs["with"][0])
