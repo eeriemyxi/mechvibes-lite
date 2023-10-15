@@ -9,3 +9,8 @@ keys:
   1:
     enabled: yes
     volume: 100
+  2:
+    enabled: yes
+    volume: 100
+
+  # ...
