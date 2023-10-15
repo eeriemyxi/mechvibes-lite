@@ -1,5 +1,5 @@
 core:
-  input_event_code: 4
+  input_event_code: 0
 
 active_theme:
   id: nk-cream
