@@ -26,10 +26,8 @@ def run(**kwargs):
 
         for conf_ovr in kwargs["with"][1:]:
             mergedeep.merge(base_conf_ovr, parse_config_address(*conf_ovr))
-    else:
-        base_conf_ovr = {}
 
-    os.environ["MECHVIBES_CONFIG_OVERWRITES"] = json.dumps(base_conf_ovr)
-    importlib.reload(constants)
+        os.environ["MECHVIBES_CONFIG_OVERWRITES"] = json.dumps(base_conf_ovr)
+        importlib.reload(constants)
 
     run_mechvibes(constants.PLATFORM)
