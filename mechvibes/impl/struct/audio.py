@@ -18,5 +18,5 @@ class DirectAudio:
 
 @dataclass
 class LocativeAudio:
-    timeline: (int, int)
+    timeline: tuple[int, int]
     scancode: int

@@ -10,7 +10,7 @@ from mechvibes.impl.abc.listener import AbstractListener
 if t.TYPE_CHECKING:
     from pathlib import Path
 
-    from mechvibes.impl.audio import AudioHandler
+    from mechvibes.impl.audio_handler import AudioHandler
 
 
 class LinuxListener(AbstractListener):
@@ -23,7 +23,7 @@ class LinuxListener(AbstractListener):
 
     def listen(self):
         for event in self.device.read_loop():
-            if event.type == evdev.ecodes.EV_KEY:
+            if event.type == evdev.ecodes.EV_KEY:  # type: ignore
                 key = evdev.categorize(event)
 
                 if key.keystate == evdev.KeyEvent.key_down:

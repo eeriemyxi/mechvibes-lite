@@ -1,5 +1,4 @@
 from functools import partial
-from pathlib import Path
 from threading import Thread
 
 import pyglet.app
@@ -7,7 +6,7 @@ import pyglet.app
 from mechvibes.impl import constants
 from mechvibes.impl.audio_handler import AudioHandler
 from mechvibes.impl.errors import ListenerNotFound
-from mechvibes.impl.listeners import DarwinListener, LinuxListener, Win32Listener
+from mechvibes.impl.listeners import LinuxListener
 from mechvibes.impl.parser import ConfigParser
 
 
@@ -58,7 +57,7 @@ class App:
     def run(self, platform: constants.Platform):
         event_loop = pyglet.app.EventLoop()
         event_loop.on_enter = partial(self.on_pyglet_event_loop_start, platform)
-        event_loop.run(interval=None)
+        event_loop.run(interval=None)  # type: ignore
 
     def platform_is_supported(self, platform: constants.Platform) -> bool:
         if platform in constants.SUPPORTED_PLATFORMS:

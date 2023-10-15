@@ -21,7 +21,7 @@ class ConfigParser:
         self.config = self.parse_config(self.config_path)
 
     @property
-    def audio_mode(self) -> constants.ThemeAudioMode:
+    def audio_mode(self) -> constants.ThemeAudioMode | None:
         if self.config["key_define_type"] == "multi":
             return constants.ThemeAudioMode.MULTI
         elif self.config["key_define_type"] == "single":

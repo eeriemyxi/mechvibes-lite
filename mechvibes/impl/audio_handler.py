@@ -25,7 +25,7 @@ class AudioHandler:
         timeline: tuple[int, int] | None = None,
         run_in_thread: bool = False
     ):
-        if self.parser.audio_mode == constants.ThemeAudioMode.SINGLE:
+        if timeline and self.parser.audio_mode == constants.ThemeAudioMode.SINGLE:
             if run_in_thread:
                 thread = Thread(
                     target=self._play_and_seek,
