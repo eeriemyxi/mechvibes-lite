@@ -1,0 +1,11 @@
+core:
+  input_event_code: 1
+
+active_theme:
+  id: nk-cream
+  max_volume: 100
+
+keys:
+  1:
+    enabled: yes
+    volume: 100
