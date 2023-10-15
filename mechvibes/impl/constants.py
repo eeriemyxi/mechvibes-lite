@@ -54,7 +54,7 @@ if PLATFORM == Platform.LINUX:
 SUPPORTED_PLATFORMS: tuple[Platform] = (Platform.LINUX,)
 SUPPORTED_AUDIO_FORMATS: tuple[str] = (".wav", ".mp3", ".ogg", ".flac")
 
-THEME_SETS_DIR_PATH: str = SCRIPT_DIRECTORY_PATH / "configs"
+THEME_SETS_DIR_PATH: str = SCRIPT_DIRECTORY_PATH / "themes"
 CONFIG_FILE_NAME: str = "config.json"
 
 ACTIVE_THEME_ID: str = CONFIG["active_theme"]["id"]
