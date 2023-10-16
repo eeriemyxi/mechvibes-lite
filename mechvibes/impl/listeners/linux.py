@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import typing as t
 
-import evdev
+import evdev  # type: ignore
 
 from mechvibes.impl import constants
 from mechvibes.impl.abc.listener import AbstractListener
@@ -23,19 +23,19 @@ class LinuxListener(AbstractListener):
         self.device = evdev.InputDevice(self.device_path)
 
     def listen(self):
-        for event in self.device.read_loop():
+        for event in self.device.read_loop():  # type: ignore
             if event.type == evdev.ecodes.EV_KEY:  # type: ignore
-                key = evdev.categorize(event)
+                key: evdev.KeyEvent = evdev.categorize(event)  # type: ignore
 
                 if key.keystate == evdev.KeyEvent.key_down:
                     try:
+                        struct = self.audio_handler.addressed_audio_indices[
+                            key.scancode  # type: ignore
+                        ]
                         if (
                             self.audio_handler.parser.audio_mode
                             == constants.ThemeAudioMode.SINGLE
                         ):
-                            struct = self.audio_handler.addressed_audio_indices[
-                                key.scancode
-                            ]
                             if (
                                 isinstance(struct, LocativeAudio)
                                 and self.audio_handler.sfx_pack_source
@@ -49,9 +49,6 @@ class LinuxListener(AbstractListener):
                             self.audio_handler.parser.audio_mode
                             == constants.ThemeAudioMode.MULTI
                         ):
-                            struct = self.audio_handler.addressed_audio_indices[
-                                key.scancode
-                            ]
                             if isinstance(struct, DirectAudio):
                                 self.audio_handler.play(
                                     struct.playable, run_in_thread=False

@@ -1,6 +1,6 @@
-from click import ParamType
+from click import ParamType, Context, Parameter
 
 
 class ConfigDefinition(ParamType):
-    def convert(self, value, param, ctx):
+    def convert(self, value: str, param: Parameter | None, ctx: Context | None):
         return [x.strip() for x in value.split("=")]

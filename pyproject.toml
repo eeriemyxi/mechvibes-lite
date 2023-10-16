@@ -32,6 +32,7 @@ mvibes = "mechvibes.cli.core:main"
 [tool.pyright]
 venvPath = "."
 venv = ".venv"
+typeCheckingMode = "strict"
 
 [build-system]
 requires = ["poetry-core"]

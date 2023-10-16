@@ -6,7 +6,7 @@ from dataclasses import dataclass
 if t.TYPE_CHECKING:
     from pathlib import Path
 
-    from pyglet.media import Source
+    from pyglet.media import Source  # type: ignore
 
 
 @dataclass

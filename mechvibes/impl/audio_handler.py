@@ -3,8 +3,8 @@ from threading import Thread
 import typing as t
 
 from functools import partial
-import pyglet.media
-import pyglet.clock
+import pyglet.media  # type: ignore
+import pyglet.clock  # type: ignore
 
 from mechvibes.impl import constants
 
@@ -22,7 +22,7 @@ class AudioHandler:
 
     def get_sfx_pack_source(self) -> pyglet.media.Source | None:
         if self.parser.audio_mode == constants.ThemeAudioMode.SINGLE:
-            return pyglet.media.load(str(self.parser.sfx_pack_path), streaming=False)
+            return pyglet.media.load(str(self.parser.sfx_pack_path), streaming=False)  # type: ignore
 
     def play(
         self,
@@ -33,7 +33,7 @@ class AudioHandler:
     ):
         if timeline and self.parser.audio_mode == constants.ThemeAudioMode.SINGLE:
             player = pyglet.media.Player()
-            player.queue(playable)
+            player.queue(playable)  # type: ignore
             if run_in_thread:
                 thread = Thread(
                     target=self._seek_and_play,
@@ -43,7 +43,7 @@ class AudioHandler:
                 thread.start()
             else:
                 player = pyglet.media.Player()
-                player.queue(playable)
+                player.queue(playable)  # type: ignore
                 self._seek_and_play(player, *timeline)
         elif self.parser.audio_mode == constants.ThemeAudioMode.MULTI:
             if run_in_thread:
@@ -52,9 +52,9 @@ class AudioHandler:
                 playable.play()
 
     def _seek_and_play(self, player: pyglet.media.Player, start: int, end: int):
-        player.seek(start / 1000)
+        player.seek(start / 1000)  # type: ignore
         player.play()
-        pyglet.clock.schedule_once(partial(self._end_player, player), end / 1000)
+        pyglet.clock.schedule_once(partial(self._end_player, player), end / 1000)  # type: ignore
 
     @staticmethod
     def _end_player(player: pyglet.media.Player, _):

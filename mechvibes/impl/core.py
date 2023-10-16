@@ -1,8 +1,8 @@
 from functools import partial
 from threading import Thread
 
-import pyglet
-import pyglet.app
+import pyglet  # type: ignore
+import pyglet.app  # type: ignore
 
 from mechvibes.impl import constants
 from mechvibes.impl.audio_handler import AudioHandler
@@ -44,12 +44,12 @@ class App:
                     listener.listen()
             case constants.Platform.WIN32:
                 ...
-            case _:
+            case _:  # type: ignore | future-proof
                 raise ListenerNotFound("Unknown operating system.")
 
         return True
 
-    def on_pyglet_event_loop_start(self, platform):
+    def on_pyglet_event_loop_start(self, platform: constants.Platform):
         Thread(
             target=self.instigate_listener,
             args=(platform,),

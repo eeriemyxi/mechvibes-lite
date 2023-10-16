@@ -3,13 +3,19 @@ from __future__ import annotations
 import json
 import typing as t
 
-import pyglet.media
+import pyglet.media  # type: ignore
 
 from mechvibes.impl import constants
 from mechvibes.impl.struct.audio import DirectAudio, LocativeAudio
 
 if t.TYPE_CHECKING:
     from pathlib import Path
+
+
+class Config(t.TypedDict):
+    key_define_type: str
+    sound: str
+    defines: dict[int, list[int] | str | None]
 
 
 class ConfigParser:
@@ -32,7 +38,7 @@ class ConfigParser:
         if self.audio_mode == constants.ThemeAudioMode.SINGLE:
             return self.theme_path / self.config["sound"]
 
-    def parse_config(self, config_path) -> dict:
+    def parse_config(self, config_path: Path) -> Config:
         with open(str(config_path), "r") as buffer:
             return json.load(buffer)
 
@@ -41,16 +47,18 @@ class ConfigParser:
             for code, filename in self.config["defines"].items():
                 if (
                     filename
+                    and isinstance(filename, str)
                     and filename[filename.index(".") :]
                     in constants.SUPPORTED_AUDIO_FORMATS
                 ):
                     audio_path = self.theme_path / filename
                     yield DirectAudio(
-                        playable=pyglet.media.load(audio_path, streaming=False),
+                        playable=pyglet.media.load(audio_path, streaming=False),  # type: ignore
                         path=audio_path,
                         scancode=int(code),
                     )
         elif self.audio_mode == constants.ThemeAudioMode.SINGLE:
             for code, timeline in self.config["defines"].items():
-                if timeline:
-                    yield LocativeAudio(timeline=timeline, scancode=int(code))
+                if timeline and isinstance(timeline, list):
+                    start, end = timeline[:2]
+                    yield LocativeAudio(timeline=(start, end), scancode=int(code))
