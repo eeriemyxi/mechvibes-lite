@@ -6,6 +6,7 @@ import evdev
 
 from mechvibes.impl import constants
 from mechvibes.impl.abc.listener import AbstractListener
+from mechvibes.impl.struct.audio import LocativeAudio, DirectAudio
 
 if t.TYPE_CHECKING:
     from pathlib import Path
@@ -35,11 +36,15 @@ class LinuxListener(AbstractListener):
                             struct = self.audio_handler.addressed_audio_indices[
                                 key.scancode
                             ]
-                            self.audio_handler.play(
-                                self.audio_handler.sfx_pack_source,
-                                timeline=struct.timeline,
-                                run_in_thread=True,
-                            )
+                            if (
+                                isinstance(struct, LocativeAudio)
+                                and self.audio_handler.sfx_pack_source
+                            ):
+                                self.audio_handler.play(
+                                    self.audio_handler.sfx_pack_source,
+                                    timeline=struct.timeline,
+                                    run_in_thread=False,
+                                )
                         elif (
                             self.audio_handler.parser.audio_mode
                             == constants.ThemeAudioMode.MULTI
@@ -47,7 +52,10 @@ class LinuxListener(AbstractListener):
                             struct = self.audio_handler.addressed_audio_indices[
                                 key.scancode
                             ]
-                            self.audio_handler.play(struct.playable)
+                            if isinstance(struct, DirectAudio):
+                                self.audio_handler.play(
+                                    struct.playable, run_in_thread=False
+                                )
                     except KeyError as error:
                         # TODO: add cool logging and errors using black
                         print(error)

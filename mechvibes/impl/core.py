@@ -1,6 +1,7 @@
 from functools import partial
 from threading import Thread
 
+import pyglet
 import pyglet.app
 
 from mechvibes.impl import constants
@@ -8,6 +9,8 @@ from mechvibes.impl.audio_handler import AudioHandler
 from mechvibes.impl.errors import ListenerNotFound
 from mechvibes.impl.listeners import LinuxListener
 from mechvibes.impl.parser import ConfigParser
+
+pyglet.options["headless"] = True
 
 
 class App:
@@ -50,14 +53,14 @@ class App:
         Thread(
             target=self.instigate_listener,
             args=(platform,),
-            kwargs=dict(run_in_thread=True),
+            kwargs=dict(run_in_thread=False),
             daemon=True,
         ).start()
 
     def run(self, platform: constants.Platform):
         event_loop = pyglet.app.EventLoop()
         event_loop.on_enter = partial(self.on_pyglet_event_loop_start, platform)
-        event_loop.run(interval=None)  # type: ignore
+        event_loop.run()
 
     def platform_is_supported(self, platform: constants.Platform) -> bool:
         if platform in constants.SUPPORTED_PLATFORMS:

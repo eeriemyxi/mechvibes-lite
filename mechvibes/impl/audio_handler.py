@@ -1,51 +1,64 @@
-import time
+from __future__ import annotations
 from threading import Thread
+import typing as t
 
+from functools import partial
 import pyglet.media
+import pyglet.clock
 
 from mechvibes.impl import constants
 
+if t.TYPE_CHECKING:
+    from mechvibes.impl.parser import ConfigParser
+
 
 class AudioHandler:
-    def __init__(self, parser):
+    def __init__(self, parser: ConfigParser):
         self.parser = parser
         self.addressed_audio_indices = {
             item.scancode: item for item in self.parser.iter_audio_indices()
         }
         self.sfx_pack_source = self.get_sfx_pack_source()
 
-    def get_sfx_pack_source(self):
+    def get_sfx_pack_source(self) -> pyglet.media.Source | None:
         if self.parser.audio_mode == constants.ThemeAudioMode.SINGLE:
             return pyglet.media.load(str(self.parser.sfx_pack_path), streaming=False)
 
     def play(
         self,
-        playable,
+        playable: pyglet.media.Source,
         *,
         timeline: tuple[int, int] | None = None,
-        run_in_thread: bool = False
+        run_in_thread: bool = False,
     ):
         if timeline and self.parser.audio_mode == constants.ThemeAudioMode.SINGLE:
+            player = pyglet.media.Player()
+            player.queue(playable)
             if run_in_thread:
                 thread = Thread(
-                    target=self._play_and_seek,
-                    args=(playable, *timeline),
+                    target=self._seek_and_play,
+                    args=(player, *timeline),
                     daemon=True,
                 )
                 thread.start()
             else:
-                self._play_and_seek(playable, *timeline)
+                player = pyglet.media.Player()
+                player.queue(playable)
+                self._seek_and_play(player, *timeline)
         elif self.parser.audio_mode == constants.ThemeAudioMode.MULTI:
             if run_in_thread:
                 Thread(target=playable.play, daemon=True).start()
             else:
                 playable.play()
 
-    def _play_and_seek(self, playable, start, end):
-        player = playable.play()
-
+    def _seek_and_play(self, player: pyglet.media.Player, start: int, end: int):
         player.seek(start / 1000)
         player.play()
+        pyglet.clock.schedule_once(partial(self._end_player, player), end / 1000)
 
-        time.sleep(end / 1000)
-        player.delete()
+    @staticmethod
+    def _end_player(player: pyglet.media.Player, _):
+        try:
+            player.delete()
+        except TypeError:
+            pass
