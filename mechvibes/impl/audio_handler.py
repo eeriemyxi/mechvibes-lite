@@ -1,10 +1,12 @@
 from __future__ import annotations
-from threading import Thread
-import typing as t
 
+import contextlib
+import typing as t
 from functools import partial
-import pyglet.media  # type: ignore
+from threading import Thread
+
 import pyglet.clock  # type: ignore
+import pyglet.media  # type: ignore
 
 from mechvibes.impl import constants
 
@@ -23,6 +25,7 @@ class AudioHandler:
     def get_sfx_pack_source(self) -> pyglet.media.Source | None:
         if self.parser.audio_mode == constants.ThemeAudioMode.SINGLE:
             return pyglet.media.load(str(self.parser.sfx_pack_path), streaming=False)  # type: ignore
+        return None
 
     def play(
         self,
@@ -30,7 +33,7 @@ class AudioHandler:
         *,
         timeline: tuple[int, int] | None = None,
         run_in_thread: bool = False,
-    ):
+    ) -> None:
         if timeline and self.parser.audio_mode == constants.ThemeAudioMode.SINGLE:
             player = pyglet.media.Player()
             player.queue(playable)  # type: ignore
@@ -49,14 +52,12 @@ class AudioHandler:
             else:
                 playable.play()
 
-    def _seek_and_play(self, player: pyglet.media.Player, start: int, end: int):
+    def _seek_and_play(self, player: pyglet.media.Player, start: int, end: int) -> None:
         player.seek(start / 1000)  # type: ignore
         player.play()
         pyglet.clock.schedule_once(partial(self._end_player, player), end / 1000)  # type: ignore
 
     @staticmethod
-    def _end_player(player: pyglet.media.Player, _):
-        try:
+    def _end_player(player: pyglet.media.Player, _: float) -> None:
+        with contextlib.suppress(TypeError):
             player.delete()
-        except TypeError:
-            pass

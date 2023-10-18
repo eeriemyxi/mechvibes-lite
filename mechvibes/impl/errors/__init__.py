@@ -1,6 +1,6 @@
-class ListenerNotFound(Exception):
+class ListenerNotFoundError(Exception):
     ...
 
 
-class EventNumberNotProvided(Exception):
+class EventNumberNotProvidedError(Exception):
     ...

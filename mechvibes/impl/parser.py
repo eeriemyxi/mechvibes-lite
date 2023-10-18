@@ -30,19 +30,21 @@ class ConfigParser:
     def audio_mode(self) -> constants.ThemeAudioMode | None:
         if self.config["key_define_type"] == "multi":
             return constants.ThemeAudioMode.MULTI
-        elif self.config["key_define_type"] == "single":
+        if self.config["key_define_type"] == "single":
             return constants.ThemeAudioMode.SINGLE
+        return None
 
     @property
     def sfx_pack_path(self) -> None | Path:
         if self.audio_mode == constants.ThemeAudioMode.SINGLE:
             return self.theme_path / self.config["sound"]
+        return None
 
     def parse_config(self, config_path: Path) -> Config:
-        with open(str(config_path), "r") as buffer:
+        with open(str(config_path)) as buffer:
             return json.load(buffer)
 
-    def iter_audio_indices(self):
+    def iter_audio_indices(self) -> t.Iterator[DirectAudio | LocativeAudio]:
         if self.audio_mode == constants.ThemeAudioMode.MULTI:
             for code, filename in self.config["defines"].items():
                 if (

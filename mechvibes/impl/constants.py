@@ -1,14 +1,22 @@
 from __future__ import annotations
+
+import logging
 import os
 import sys
+import typing as t
 from enum import Enum, auto
 from pathlib import Path
-import typing as t
 
 import mergedeep  # type: ignore
 import yaml
+from rich.logging import RichHandler
 
-from mechvibes.impl.errors import EventNumberNotProvided
+from mechvibes.impl.errors import EventNumberNotProvidedError
+
+logging.basicConfig(
+    level=logging.INFO, format="%(message)s", datefmt="[%X]", handlers=[RichHandler()]
+)
+logger = logging.getLogger(__name__)
 
 
 class AppConfig(t.TypedDict):
@@ -60,18 +68,20 @@ MECHVIBES_CONFIG_OVERWRITES: AppConfig = yaml.safe_load(
     os.environ.get("MECHVIBES_CONFIG_OVERWRITES", "{}")
 )
 if MECHVIBES_CONFIG_OVERWRITES:
+    logger.info("Merging configuration overwrites...")
     mergedeep.merge(CONFIG, MECHVIBES_CONFIG_OVERWRITES)  # type: ignore
 
 if PLATFORM == Platform.LINUX:
     try:
         INPUT_EVENT_CODE: int = CONFIG["core"]["input_event_code"]
+        logger.debug("Input event ID has been set to: %s", INPUT_EVENT_CODE)
         EVENT_PATH = Path("/dev/input")
     except IndexError:
-        raise EventNumberNotProvided(
+        raise EventNumberNotProvidedError(
             "You must pass device event number of a keyboard "
             "in `configuration.yml`. Please follow the instructions in README.md "
             "given for Linux users."
-        )
+        ) from None
 
 SUPPORTED_PLATFORMS: tuple[Platform] = (Platform.LINUX,)
 SUPPORTED_AUDIO_FORMATS: tuple[str, ...] = (".wav", ".mp3", ".ogg", ".flac")

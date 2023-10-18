@@ -7,5 +7,5 @@ class AbstractListener(ABC):
         pass
 
     @abstractmethod
-    def listen(self):
+    def listen(self) -> None:
         pass

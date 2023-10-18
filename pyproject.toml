@@ -35,6 +35,19 @@ venvPath = "."
 venv = ".venv"
 typeCheckingMode = "strict"
 
+[tool.ruff]
+# select = ["E4", "E7", "E9", "F", "I"]
+ignore = [
+    "ANN1", "ANN204", "ANN401",
+    "A003",
+    "D1", "D203", "D213"
+]
+select = ["A", "ANN", "B", "C4", "C90", "D", "E", "F", "I", "ISC", "INT", "N", "PIE", "PT", "Q", "RET", "RUF", "S", "SIM", "TID", "T20", "UP", "W"]
+
+[tool.ruff.per-file-ignores]
+# Allow assert in tests
+"tests/*" = ["ANN", "S101"]
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

@@ -1,12 +1,15 @@
 from __future__ import annotations
 
+import logging
 import typing as t
 
 import evdev  # type: ignore
 
 from mechvibes.impl import constants
 from mechvibes.impl.abc.listener import AbstractListener
-from mechvibes.impl.struct.audio import LocativeAudio, DirectAudio
+from mechvibes.impl.struct.audio import DirectAudio, LocativeAudio
+
+logger = logging.getLogger(__name__)
 
 if t.TYPE_CHECKING:
     from pathlib import Path
@@ -22,7 +25,11 @@ class LinuxListener(AbstractListener):
         self.device_path = str(event_path / f"event{event_code}")
         self.device = evdev.InputDevice(self.device_path)
 
-    def listen(self):
+        logger.info("Loaded Linux input event listener.")
+
+    def listen(self) -> None:
+        logger.info("Listening for input events started.")
+
         for event in self.device.read_loop():  # type: ignore
             if event.type == evdev.ecodes.EV_KEY:  # type: ignore
                 key: evdev.KeyEvent = evdev.categorize(event)  # type: ignore
@@ -48,12 +55,12 @@ class LinuxListener(AbstractListener):
                         elif (
                             self.audio_handler.parser.audio_mode
                             == constants.ThemeAudioMode.MULTI
-                        ):
-                            if isinstance(struct, DirectAudio):
-                                self.audio_handler.play(
-                                    struct.playable, run_in_thread=False
-                                )
-                    except KeyError as error:
-                        # TODO: add cool logging and errors using black
-                        print(error)
-                        pass
+                        ) and isinstance(struct, DirectAudio):
+                            self.audio_handler.play(
+                                struct.playable, run_in_thread=False
+                            )
+                    except KeyError:
+                        logger.critical(
+                            "Audio unknown for key scancode %s.",
+                            key.scancode,  # type: ignore
+                        )
