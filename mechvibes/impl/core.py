@@ -6,7 +6,6 @@ import pyglet.app  # type: ignore
 
 from mechvibes.impl import constants
 from mechvibes.impl.audio_handler import AudioHandler
-from mechvibes.impl.errors import ListenerNotFound
 from mechvibes.impl.listeners import LinuxListener
 from mechvibes.impl.parser import ConfigParser
 
@@ -44,8 +43,6 @@ class App:
                     listener.listen()
             case constants.Platform.WIN32:
                 ...
-            case _:  # type: ignore | future-proof
-                raise ListenerNotFound("Unknown operating system.")
 
         return True
 
@@ -63,7 +60,4 @@ class App:
         event_loop.run()
 
     def platform_is_supported(self, platform: constants.Platform) -> bool:
-        if platform in constants.SUPPORTED_PLATFORMS:
-            return True
-        else:
-            return False
+        return platform in constants.SUPPORTED_PLATFORMS

@@ -42,8 +42,6 @@ class AudioHandler:
                 )
                 thread.start()
             else:
-                player = pyglet.media.Player()
-                player.queue(playable)  # type: ignore
                 self._seek_and_play(player, *timeline)
         elif self.parser.audio_mode == constants.ThemeAudioMode.MULTI:
             if run_in_thread:
