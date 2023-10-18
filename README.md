@@ -8,4 +8,4 @@ Coming soon.
 Thank you for your interest. Please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 # License
-This project is licensed under the [MIT license](LICENSE.md).
+This project is licensed under the [MIT license](LICENSE).
