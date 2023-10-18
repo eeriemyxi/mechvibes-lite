@@ -1,4 +1,3 @@
-INPUT_EVENT_ID = 4
 WORKDIR = .
 PACKAGE_NAME = mechvibes
 
