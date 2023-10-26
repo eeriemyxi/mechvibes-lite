@@ -6,7 +6,6 @@ import typing as t
 
 import click
 import mergedeep  # type: ignore
-import typing_extensions as tex
 
 from mechvibes.cli.struct import ConfigDefinition
 from mechvibes.cli.utils import parse_config_address
@@ -28,7 +27,7 @@ def main() -> None:
 
 @main.command()
 @click.option("--with", "-w", multiple=True, type=CONFIG_DEFINITION_TYPE)
-def run(**kwargs: tex.Unpack[RunSubcommandKwargs]) -> None:
+def run(**kwargs: t.Unpack[RunSubcommandKwargs]) -> None:
     logger.info("Loading configurations...")
 
     if kwargs["with"]:

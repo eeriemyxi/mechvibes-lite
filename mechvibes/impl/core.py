@@ -29,7 +29,7 @@ class App:
         parser = ConfigParser(
             constants.THEME_SETS_DIR_PATH,
             constants.ACTIVE_THEME_ID,
-            constants.CONFIG_FILE_NAME,
+            constants.THEME_CONFIG_FILE_NAME,
         )
         audio_handler = AudioHandler(parser)
 

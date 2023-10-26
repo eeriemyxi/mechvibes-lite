@@ -19,12 +19,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-class AppConfig(t.TypedDict):
-    core: AppConfigCore
-    active_theme: AppConfigActiveTheme
-    keys: dict[int, AppConfigKeyConfig]
-
-
 class AppConfigCore(t.TypedDict):
     input_event_code: int
 
@@ -39,6 +33,12 @@ class AppConfigKeyConfig(t.TypedDict):
     volume: int
 
 
+class AppConfig(t.TypedDict):
+    core: AppConfigCore
+    active_theme: AppConfigActiveTheme
+    keys: dict[int, AppConfigKeyConfig]
+
+
 class ThemeAudioMode(Enum):
     SINGLE = auto()
     MULTI = auto()
@@ -50,18 +50,56 @@ class Platform(Enum):
     WIN32 = auto()
 
 
-SCRIPT_DIRECTORY_PATH: Path = Path(os.path.dirname(os.path.realpath(__file__))).parents[
-    1
-]
+SCRIPT_DIRECTORY_PATH: Path = Path(__file__).parents[1]
+
+CONFIG_DIRECTORY_NAME = "mechvibes-lite"
+CONFIG_FILE_NAME = "configuration.yml"
+
+
+class AppConfigurationPath:
+    WINDOWS: tuple[Path, ...] = (
+        Path(os.environ.get("APPDATA", "")) / CONFIG_DIRECTORY_NAME,
+        SCRIPT_DIRECTORY_PATH,
+    )
+    LINUX: tuple[Path, ...] = (
+        Path("/etc") / CONFIG_DIRECTORY_NAME,
+        Path(os.environ.get("XDG_CONFIG_HOME", Path(os.environ["HOME"]) / ".config"))
+        / CONFIG_DIRECTORY_NAME,
+        SCRIPT_DIRECTORY_PATH,
+    )
+
+
+def find_app_config_path_from(paths: tuple[Path, ...]) -> Path:
+    for path in paths:
+        if path.exists():
+            logger.info("Using path `%s` for configuration lookup.", path)
+            return path
+        logger.info("Cannot find configuration file in `%s`. Trying next path...", path)
+
+    error = FileNotFoundError(
+        "No possible paths to configuration file found. "
+        "Please create a configuration file."
+    )
+    error.add_note("You can create a configuration file in the following paths:")
+    for path in paths:
+        error.add_note(f"\t{path / CONFIG_FILE_NAME}")
+    error.add_note(
+        "Also note that you can generate the content for a default "
+        "configuration file with `mvibes --generate-config` command."
+    )
+    raise error from None
+
 
 if sys.platform == "darwin":
     PLATFORM = Platform.DARWIN
 elif sys.platform == "linux":
     PLATFORM = Platform.LINUX
+    APP_CONFIG_PATH = find_app_config_path_from(AppConfigurationPath.LINUX)
 elif sys.platform == "win32":
     PLATFORM = Platform.WIN32
+    APP_CONFIG_PATH = find_app_config_path_from(AppConfigurationPath.WINDOWS)
 
-with open(SCRIPT_DIRECTORY_PATH / "configuration.yml") as config_buf:
+with open(APP_CONFIG_PATH / CONFIG_FILE_NAME) as config_buf:
     CONFIG: AppConfig = yaml.safe_load(config_buf)
 
 MECHVIBES_CONFIG_OVERWRITES: AppConfig = yaml.safe_load(
@@ -79,15 +117,17 @@ if PLATFORM == Platform.LINUX:
     except IndexError:
         raise EventNumberNotProvidedError(
             "You must pass device event number of a keyboard "
-            "in `configuration.yml`. Please follow the instructions in README.md "
+            f"in `{CONFIG_FILE_NAME}`. Please follow the instructions in `README.md` "
             "given for Linux users."
         ) from None
 
 SUPPORTED_PLATFORMS: tuple[Platform] = (Platform.LINUX,)
 SUPPORTED_AUDIO_FORMATS: tuple[str, ...] = (".wav", ".mp3", ".ogg", ".flac")
 
-THEME_SETS_DIR_PATH: Path = SCRIPT_DIRECTORY_PATH / "themes"
-CONFIG_FILE_NAME: str = "config.json"
+THEME_CONFIG_FILE_NAME = "config.json"
+THEME_SETS_DIR_PATH: Path = APP_CONFIG_PATH / "themes"
+if not THEME_SETS_DIR_PATH.exists():
+    THEME_SETS_DIR_PATH.mkdir()
 
 ACTIVE_THEME_ID: str = CONFIG["active_theme"]["id"]
 ACTIVE_THEME_MAX_VOLUME: int = CONFIG["active_theme"]["max_volume"]

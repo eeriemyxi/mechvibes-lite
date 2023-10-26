@@ -6,6 +6,7 @@ authors = ["eeriemyxi <eeriemyxi@proton.me>"]
 license = "MIT"
 readme = "README.md"
 packages = [{ include = "mechvibes" }]
+include = ["configuration.yml", "themes/"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -25,7 +26,6 @@ pre-commit = "^3.4.0"
 black = "^23.9.1"
 ruff = "^0.0.292"
 pyright = "^1.1.331"
-typing-extensions = "^4.8.0"
 
 [tool.poetry.scripts]
 mvibes = "mechvibes.cli.core:main"
