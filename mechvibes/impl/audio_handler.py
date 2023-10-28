@@ -60,4 +60,5 @@ class AudioHandler:
     @staticmethod
     def _end_player(player: pyglet.media.Player, _: float) -> None:
         with contextlib.suppress(TypeError):
+            player.pause()
             player.delete()

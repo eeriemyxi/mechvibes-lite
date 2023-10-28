@@ -7,7 +7,7 @@ import pyglet.app  # type: ignore
 
 from mechvibes.impl import constants
 from mechvibes.impl.audio_handler import AudioHandler
-from mechvibes.impl.listeners import LinuxListener
+from mechvibes.impl.listeners import LinuxListener, Win32Listener
 from mechvibes.impl.parser import ConfigParser
 
 pyglet.options["headless"] = True
@@ -46,7 +46,8 @@ class App:
                 else:
                     listener.listen()
             case constants.Platform.WIN32:
-                ...
+                listener = Win32Listener(audio_handler)
+                listener.listen()
 
         return True
 

@@ -56,19 +56,6 @@ CONFIG_DIRECTORY_NAME = "mechvibes-lite"
 CONFIG_FILE_NAME = "configuration.yml"
 
 
-class AppConfigurationPath:
-    WINDOWS: tuple[Path, ...] = (
-        Path(os.environ.get("APPDATA", "")) / CONFIG_DIRECTORY_NAME,
-        SCRIPT_DIRECTORY_PATH,
-    )
-    LINUX: tuple[Path, ...] = (
-        Path("/etc") / CONFIG_DIRECTORY_NAME,
-        Path(os.environ.get("XDG_CONFIG_HOME", Path(os.environ["HOME"]) / ".config"))
-        / CONFIG_DIRECTORY_NAME,
-        SCRIPT_DIRECTORY_PATH,
-    )
-
-
 def find_app_config_path_from(paths: tuple[Path, ...]) -> Path:
     for path in paths:
         if path.exists():
@@ -94,10 +81,20 @@ if sys.platform == "darwin":
     PLATFORM = Platform.DARWIN
 elif sys.platform == "linux":
     PLATFORM = Platform.LINUX
-    APP_CONFIG_PATH = find_app_config_path_from(AppConfigurationPath.LINUX)
+    APP_CONFIGURATION_PATHS = (
+        Path("/etc") / CONFIG_DIRECTORY_NAME,
+        Path(os.environ.get("XDG_CONFIG_HOME", Path(os.environ["HOME"]) / ".config"))
+        / CONFIG_DIRECTORY_NAME,
+        SCRIPT_DIRECTORY_PATH,
+    )
+    APP_CONFIG_PATH = find_app_config_path_from(APP_CONFIGURATION_PATHS)
 elif sys.platform == "win32":
     PLATFORM = Platform.WIN32
-    APP_CONFIG_PATH = find_app_config_path_from(AppConfigurationPath.WINDOWS)
+    APP_CONFIGURATION_PATHS = (
+        Path(os.environ.get("APPDATA", "")) / CONFIG_DIRECTORY_NAME,
+        SCRIPT_DIRECTORY_PATH,
+    )
+    APP_CONFIG_PATH = find_app_config_path_from(APP_CONFIGURATION_PATHS)
 
 with open(APP_CONFIG_PATH / CONFIG_FILE_NAME) as config_buf:
     CONFIG: AppConfig = yaml.safe_load(config_buf)
@@ -121,7 +118,7 @@ if PLATFORM == Platform.LINUX:
             "given for Linux users."
         ) from None
 
-SUPPORTED_PLATFORMS: tuple[Platform] = (Platform.LINUX,)
+SUPPORTED_PLATFORMS: tuple[Platform] = (Platform.LINUX, Platform.WIN32)
 SUPPORTED_AUDIO_FORMATS: tuple[str, ...] = (".wav", ".mp3", ".ogg", ".flac")
 
 THEME_CONFIG_FILE_NAME = "config.json"
