@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import importlib
 import json
 import logging
@@ -6,12 +8,14 @@ import typing as t
 
 import click
 import mergedeep  # type: ignore
-from typing_extensions import Unpack
 
 from mechvibes.cli.struct import ConfigDefinition
 from mechvibes.cli.utils import parse_config_address
 from mechvibes.impl import constants
 from mechvibes.runner import run as run_mechvibes
+
+if t.TYPE_CHECKING:
+    from typing_extensions import Unpack
 
 logger = logging.getLogger(__name__)
 

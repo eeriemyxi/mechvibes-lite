@@ -91,7 +91,7 @@ elif sys.platform == "linux":
 elif sys.platform == "win32":
     PLATFORM = Platform.WIN32
     APP_CONFIGURATION_PATHS = (
-        Path(os.environ.get("APPDATA", "")) / CONFIG_DIRECTORY_NAME,
+        Path(os.environ["APPDATA"]) / CONFIG_DIRECTORY_NAME,
         SCRIPT_DIRECTORY_PATH,
     )
     APP_CONFIG_PATH = find_app_config_path_from(APP_CONFIGURATION_PATHS)
