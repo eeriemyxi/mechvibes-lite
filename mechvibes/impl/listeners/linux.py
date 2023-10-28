@@ -34,14 +34,18 @@ class LinuxListener(AbstractListener):
 
         for event in self.device.read_loop():  # type: ignore
             if event.type == evdev.ecodes.EV_KEY:  # type: ignore
-                key: evdev.KeyEvent = evdev.categorize(event)  # type: ignore
+                key = t.cast(evdev.KeyEvent, evdev.categorize(event))  # type: ignore
+                scancode = t.cast(int, key.scancode)  # type: ignore
 
-                if key.keystate == evdev.KeyEvent.key_down:
+                if (
+                    key.keystate == evdev.KeyEvent.key_down
+                    and self.audio_handler.parser.audio_mode
+                ):
                     try:
                         self.play_key_for(
-                            platform=constants.Platform.LINUX,
-                            scancode=key.scancode,
+                            scancode=scancode,
                             audio_mode=self.audio_handler.parser.audio_mode,
+                            run_in_thread=False,
                         )
                     except KeyError:
                         logger.critical(

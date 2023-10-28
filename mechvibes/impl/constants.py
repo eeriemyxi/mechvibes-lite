@@ -118,7 +118,7 @@ if PLATFORM == Platform.LINUX:
             "given for Linux users."
         ) from None
 
-SUPPORTED_PLATFORMS: tuple[Platform] = (Platform.LINUX, Platform.WIN32)
+SUPPORTED_PLATFORMS: tuple[Platform, ...] = (Platform.LINUX, Platform.WIN32)
 SUPPORTED_AUDIO_FORMATS: tuple[str, ...] = (".wav", ".mp3", ".ogg", ".flac")
 
 THEME_CONFIG_FILE_NAME = "config.json"
