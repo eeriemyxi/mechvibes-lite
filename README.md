@@ -1,10 +1,13 @@
-# Note
-This is a rewrite that I sometimes work on. For now, only Linux is supported.
-Windows will eventually be supported as well. There is no support for MacOS
-because I can't afford to test the code, but I am accepting of contributions.
+# Introduction
+This is a lightweight CLI-based version of
+[Mechvibes](https://github.com/hainguyents13/mechvibes). No Electron.
+Only supports Linux and Windows. (See [why](wiki#others)).
 
 # Instructions to Install
 See the [wiki page](wiki#installation) for instructions to install.
+
+# Usage
+See the [wiki page](wiki#usage) for a guide to using this project.
 
 # Contributing
 Thank you for your interest. Please see [CONTRIBUTING.md](CONTRIBUTING.md).
