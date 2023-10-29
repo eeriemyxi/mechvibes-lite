@@ -9,7 +9,7 @@ Only supports Linux and Windows. (See [why](../../wiki#others)).
   * `mvibes run --with active_theme.id=eg-oreo` overrides the active
   theme specified in `configuration.yml`. You can override any option in the file
   using this option. You are allowed to use this option multiple times like this:
-  `mvibes run --with key.subkey=vaue --with another_key.another_rub_key=value`.
+  `mvibes run --with key1.sub_key1=value --with key2.sub_key2=value`.
   * See `mvibes --help` for more information.
 * Default themes same as the original Mechvibes, see [themes](mechvibes/themes).
 
