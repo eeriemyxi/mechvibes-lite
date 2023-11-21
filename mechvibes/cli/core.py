@@ -36,7 +36,7 @@ def main() -> None:
     "-w",
     multiple=True,
     type=CONFIG_DEFINITION_TYPE,
-    help="Overwrite a option in the config file. Can be used multiple times.",
+    help="Overwrite an option in the config file. Can be used multiple times.",
 )
 def run(**kwargs: Unpack[RunSubcommandKwargs]) -> None:
     logger.info("Loading configurations...")
