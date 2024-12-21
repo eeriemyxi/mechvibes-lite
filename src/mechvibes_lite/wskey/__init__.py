@@ -1,3 +1,4 @@
+
 import asyncio
 import logging
 
@@ -36,7 +37,7 @@ def get_appropriate_sender():
 
 
 async def start() -> None:
-    host = "localhost"
+    host = const.WSKEY_HOST
     port = const.WSKEY_PORT
 
     sender = get_appropriate_sender()

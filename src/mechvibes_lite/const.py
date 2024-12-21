@@ -30,8 +30,8 @@ if EVENT_ID.isdigit():
     EVENT_ID = f"event{EVENT_ID}"
 EVENT_PATH = EVENT_PATH_BASE / EVENT_ID
 
-WSKEY_PORT = CONFIG.get("wskey", "port")
 WSKEY_HOST = CONFIG.get("wskey", "host")
+WSKEY_PORT = CONFIG.get("wskey", "port")
 
 THEME_DIR = pathlib.Path(CONFIG.get("general", "theme_dir")).resolve()
 if not THEME_DIR.exists():
