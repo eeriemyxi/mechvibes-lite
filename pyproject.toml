@@ -1,0 +1,22 @@
+[project]
+name = "mechvibes-lite"
+version = "0.1.0"
+description = "A lightweight backend for Mechvibes."
+readme = "README.md"
+authors = [
+    { name = "myxi", email = "myxi@envs.net" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "evdev>=1.7.1",
+    "pyglet>=2.0.20",
+    "websockets>=14.1",
+]
+
+[project.scripts]
+mvibes = "mechvibes_lite.__main__:main"
+mvibes-wskey = "mechvibes_lite.wskey.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
