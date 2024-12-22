@@ -11,12 +11,11 @@ def get_config_path(app_name: str) -> pathlib.Path:
             config_dir = pathlib.Path.home() / "Library" / "Application Support"
         else:
             sys_config_dir = pathlib.Path("/etc") / app_name
-            config_dir = (
-                pathlib.Path(
-                    os.getenv("XDG_CONFIG_HOME", pathlib.Path.home() / ".config")
-                )
-                if not sys_config_dir.exists()
-                else sys_config_dir
+            if sys_config_dir:
+                return sys_config_dir
+
+            config_dir = pathlib.Path(
+                os.getenv("XDG_CONFIG_HOME", pathlib.Path.home() / ".config")
             )
     else:
         raise RuntimeError("Unsupported platform")
