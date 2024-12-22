@@ -1,0 +1,64 @@
+site_name: Mechvibes Lite
+site_description: Documentation for Mechvibes Lite.
+site_author: myxi
+docs_dir: docs/
+repo_name: "eeriemyxi/mechvibes-lite"
+repo_url: "https://github.com/eeriemyxi/mechvibes-lite"
+nav:
+    - Getting Started: index.md
+    - Installation:
+        - installation/windows.md
+        - installation/linux.md
+    - Configuration: configuration.md
+theme:
+    name: material
+    palette:
+        - scheme: slate
+          primary: deep purple
+          toggle:
+              icon: material/brightness-4
+              name: Switch to light mode
+        - scheme: default
+          primary: indigo
+          toggle:
+              icon: material/brightness-7
+              name: Switch to dark mode
+    features:
+        - content.code.copy
+        - content.code.select
+        - content.code.annotate
+extra_css:
+    - css/extra.css
+
+markdown_extensions:
+    # Python Markdown
+    - abbr
+    - admonition
+    - attr_list
+    - def_list
+    - footnotes
+    - md_in_html
+    - toc:
+          permalink: true
+
+    # Python Markdown Extensions
+    - pymdownx.arithmatex:
+          generic: true
+    - pymdownx.betterem:
+          smart_enable: all
+    - pymdownx.caret
+    - pymdownx.details
+    - pymdownx.emoji:
+          emoji_index: !!python/name:material.extensions.emoji.twemoji
+          emoji_generator: !!python/name:material.extensions.emoji.to_svg
+    - pymdownx.highlight
+    - pymdownx.inlinehilite
+    - pymdownx.keys
+    - pymdownx.mark
+    - pymdownx.smartsymbols
+    - pymdownx.superfences
+    - pymdownx.tabbed:
+          alternate_style: true
+    - pymdownx.tasklist:
+          custom_checkbox: true
+    - pymdownx.tilde
