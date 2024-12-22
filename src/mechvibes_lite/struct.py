@@ -39,9 +39,7 @@ class Theme:
             return {int(code): tuple(stamp) for code, stamp in defines.items() if stamp}
         if pl_type is PlaybackType.MULTI_FILE:
             return {
-                int(code): base_path / pathlib.Path(path)
-                for code, path in defines.items()
-                if path
+                int(code): base_path / path for code, path in defines.items() if path
             }
         return None
 
@@ -53,7 +51,7 @@ class Theme:
             with open(config) as conf:
                 config = json.load(conf)
 
-        log.info("Trying to construct Theme from: %s", config)
+        log.debug("Trying to construct Theme from: %s", config)
         pl_type = PlaybackType.from_config(config)
         defines = cls._parse_defines(pl_type, config["defines"], base_path)
 

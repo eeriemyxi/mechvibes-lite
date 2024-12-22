@@ -8,7 +8,8 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "evdev>=1.7.1",
+    "evdev>=1.7.1 ; sys_platform == 'linux'",
+    "keyboard>=0.13.5 ; sys_platform == 'win32'",
     "pyglet>=2.0.20",
     "websockets>=14.1",
 ]
@@ -20,3 +21,9 @@ mvibes-wskey = "mechvibes_lite.wskey.__main__:main"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.5.49",
+]

@@ -7,7 +7,6 @@ from mechvibes_lite import util
 log = logging.getLogger(__name__)
 
 APP_NAME = "mechvibes-lite"
-SUPPORTED_AUDIO_FORMATS = (".ogg", ".wav")
 
 CONFIG_HOME = util.get_config_path(APP_NAME)
 
@@ -25,15 +24,13 @@ CONFIG = configparser.ConfigParser()
 CONFIG.read(CONFIG_PATH)
 
 EVENT_PATH_BASE = pathlib.Path("/dev/input/")
-EVENT_ID = CONFIG.get("general", "event_id")
-if EVENT_ID.isdigit():
-    EVENT_ID = f"event{EVENT_ID}"
+EVENT_ID = util.parse_event_id(CONFIG.get("general", "event_id"))
 EVENT_PATH = EVENT_PATH_BASE / EVENT_ID
 
 WSKEY_HOST = CONFIG.get("wskey", "host")
 WSKEY_PORT = CONFIG.get("wskey", "port")
 
-THEME_DIR = pathlib.Path(CONFIG.get("general", "theme_dir")).resolve()
+THEME_DIR = pathlib.Path(CONFIG.get("general", "theme_dir")).expanduser().resolve()
 if not THEME_DIR.exists():
     log.error("theme_dir specified as '%s' but it doesn't exist.", THEME_DIR)
     exit(1)
