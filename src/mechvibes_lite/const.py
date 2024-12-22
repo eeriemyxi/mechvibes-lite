@@ -1,6 +1,7 @@
 import configparser
 import logging
 import pathlib
+import sys
 
 from mechvibes_lite import util
 
@@ -23,9 +24,10 @@ if not CONFIG_PATH.exists():
 CONFIG = configparser.ConfigParser()
 CONFIG.read(CONFIG_PATH)
 
-EVENT_PATH_BASE = pathlib.Path("/dev/input/")
-EVENT_ID = util.parse_event_id(CONFIG.get("general", "event_id"))
-EVENT_PATH = EVENT_PATH_BASE / EVENT_ID
+if sys.platform == "linux":
+    EVENT_PATH_BASE = pathlib.Path("/dev/input/")
+    EVENT_ID = util.parse_event_id(CONFIG.get("general", "event_id"))
+    EVENT_PATH = EVENT_PATH_BASE / EVENT_ID
 
 WSKEY_HOST = CONFIG.get("wskey", "host")
 WSKEY_PORT = CONFIG.get("wskey", "port")
