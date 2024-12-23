@@ -101,6 +101,7 @@ def main() -> None:
     parser.add_argument(
         "--wskey-port",
     )
+    parser.add_argument("--no-wskey", action="store_true", default=None)
 
     subparsers = parser.add_subparsers(dest="subcommand", required=True)
 
@@ -192,7 +193,19 @@ def main() -> None:
             config.event_path,
         )
     elif args.subcommand == "daemon":
-        args.func(config.theme_path, config.wskey_host, config.wskey_port)
+        if not args.no_wskey:
+            thread = threading.Thread(
+                target=asyncio.run,
+                args=[
+                    wskey.start(
+                        config.wskey_host,
+                        config.wskey_port,
+                        config.event_path,
+                    )
+                ],
+                daemon=True,
+            )
+            thread.start()
 
         args.func(config.theme_path, config.wskey_host, config.wskey_port)
 
