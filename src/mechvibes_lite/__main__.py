@@ -174,6 +174,10 @@ def main() -> None:
     if args.event_id and sys.platform != "linux":
         log.error("The --event-id flag is only for Linux users.")
         exit(1)
+
+    log.debug("Configuration: %s", config)
+    log.debug("Arguments Namespace: %s", args)
+
     if args.subcommand == "wskey":
         args.func(
             args.host or config.wskey_host,
