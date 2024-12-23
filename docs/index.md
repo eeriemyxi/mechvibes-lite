@@ -15,6 +15,9 @@ Please read the [installation page for Windows](/installation/windows).
 ## Linux
 Please read the [installation page for Linux](/installation/linux).
 
+# Usage
+You can learn how to use this software [here](usage.md).
+
 # Configuration
-Once you are done installing, you need to setup a configuration file to use
-Mechvibes Lite. Instructions can be found [here](configuration.md).
+You need to setup a configuration file to use Mechvibes Lite. Instructions can
+be found [here](configuration.md).

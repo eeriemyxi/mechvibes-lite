@@ -1,6 +1,6 @@
 # Configuring Mechvibes Lite
-Please make sure you have this program installed first. Read the instructions
-for your system [here](/#installation).
+!!! important
+    Please ensure you have the software installed by following the instructions [here](/#installation).
 
 [TODO]
 

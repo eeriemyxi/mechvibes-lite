@@ -9,6 +9,7 @@ nav:
     - Installation:
         - installation/windows.md
         - installation/linux.md
+    - Usage: usage.md
     - Configuration: configuration.md
 theme:
     name: material
