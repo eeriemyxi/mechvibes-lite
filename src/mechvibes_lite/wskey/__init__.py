@@ -49,6 +49,11 @@ async def evdev_sender(websocket, *, event_path) -> None:
 
 async def start(host, port, event_path=None) -> None:
     if sys.platform == "linux":
+        if not event_path.exists():
+            raise FileNotFoundError(
+                f"event_path specified as '{event_path}' but it doesn't exist."
+            )
+
         sender = partial(evdev_sender, event_path=event_path)
     elif sys.platform == "win32":
         sender = keyboard_mod_sender
