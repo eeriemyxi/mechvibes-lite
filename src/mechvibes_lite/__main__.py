@@ -36,7 +36,7 @@ def ensure_required_flags(args) -> None:
     if sys.platform == "linux":
         required_flags.append("event_id")
     for flag in required_flags:
-        if not hasattr(args, flag) or not getattr(args, flag):
+        if not getattr(args, flag, None):
             raise ValueError(
                 f"'--{util.to_kebab(flag)}' flag was expected but not provided."
             )
