@@ -52,3 +52,11 @@ mvibes wskey daemon --host localhost --port 8765 --event-id 18
 
 Additionally the main `daemon` subcommand also has `--wskey-port` and
 `--wskey-host` flags to specify which server to connect to.
+
+## Disable Automatically Starting a Wskey Server
+By default when you do `mvibes daemon` it starts a Wskey server for you
+automatically. To override this behavior, you may use the `--no-wskey` flag:
+
+```shell
+mvibes --no-wskey daemon
+```
