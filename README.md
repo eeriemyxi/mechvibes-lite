@@ -11,7 +11,7 @@ Please read the [relevant documentation](https://mechvibes-lite.pages.dev/#insta
 Please read the [relevant documentation](https://mechvibes-lite.pages.dev/#usage).
 
 # Command-line Arguments
-```shell
+```
 usage: mvibes [-h] [-L LOG_LEVEL] [--no-config] [--with-config WITH_CONFIG]
               [--theme-dir THEME_DIR] [--theme-folder-name THEME_FOLDER_NAME]
               [--wskey-host WSKEY_HOST] [--wskey-port WSKEY_PORT] [--no-wskey]
