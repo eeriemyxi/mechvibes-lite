@@ -170,6 +170,10 @@ def main() -> None:
         if args.event_id:
             config.event_id = util.parse_event_id(args.event_id)
             config.event_path = config.event_path_base / config.event_id
+
+    if args.event_id and sys.platform != "linux":
+        log.error("The --event-id flag is only for Linux users.")
+        exit(1)
     if args.subcommand == "wskey":
         args.func(
             args.host or config.wskey_host,
