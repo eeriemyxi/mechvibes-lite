@@ -1,7 +1,7 @@
 # Configuring Mechvibes Lite
 !!! important 
     Please ensure you have the software installed by following the
-    instructions [here](/#installation).
+    instructions [here](index.md#installation).
 
 ## Example Configuration File
 ```ini
@@ -65,7 +65,7 @@ information.
 
 ## In-depth Description
 To understand `wskey.*` options, it is recommended to refer to documentation
-available [here](/usage/#wskey).
+available [here](usage.md#wskey).
 
 To undersand `wskey.event_id`, you should refer to documentation available
-[here](/installation/linux/#testing-access-for-input-event).
+[here](installation/linux.md#testing-access-for-input-event).

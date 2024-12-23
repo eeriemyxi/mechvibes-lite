@@ -3,7 +3,7 @@ This page is a guide to using Mechvibes Lite from the command-line.
 
 !!! important 
     Please ensure you have the software installed by following the
-    instructions [here](/#installation).
+    instructions [here](index.md#installation).
 
 ## Running Mechvibes Lite
 ```shell
@@ -13,7 +13,7 @@ This will start Mechvibes Lite on your computer.
 
 !!! important 
     Please ensure you have a proper configuration file beforehand by
-    following the instructions [here](#configuration).
+    following the instructions [here](configuration.md).
 
 !!! tip 
     A [Wskey](#wskey) server is automatically ran in the background for you unless it
@@ -43,7 +43,7 @@ Windows it depends on `keyboard` package from the same repository.
     may be introduced in a future release.
 
 The host address and the port is first fetched from `wskey` key in the
-configuration file. More information is available [here](#configuration).
+configuration file. More information is available [here](configuration.md).
 However the subcommand has a number of flags to override the configuration file:
 
 ```shell

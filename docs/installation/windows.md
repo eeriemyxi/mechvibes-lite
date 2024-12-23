@@ -9,4 +9,4 @@ Once you have Python installed, do this:
 python -m pip install git+https://github.com/eeriemyxi/mechvibes-lite
 ```
 
-Now you can follow the usage guide of Mechvibes Lite [here](/#usage).
+Now you can follow the usage guide of Mechvibes Lite [here](../index.md/#usage).

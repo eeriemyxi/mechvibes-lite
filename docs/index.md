@@ -10,10 +10,10 @@ made for the original version.
     welcome.
 
 ## Windows
-Please read the [installation page for Windows](/installation/windows).
+Please read the [installation page for Windows](installation/windows.md).
 
 ## Linux
-Please read the [installation page for Linux](/installation/linux).
+Please read the [installation page for Linux](installation/linux.md).
 
 # Usage
 You can learn how to use this software [here](usage.md).
