@@ -6,7 +6,7 @@ This page is a guide to using Mechvibes Lite from the command-line.
     instructions [here](/#installation).
 
 ## Running Mechvibes Lite
-```console
+```shell
 mvibes daemon
 ```
 This will start Mechvibes Lite on your computer.
@@ -28,7 +28,7 @@ introduction below.
 Wskey under the hood is just a WebSocket server. You can start this daemon
 yourself by doing the following:
 
-```console
+```shell
 mvibes wskey daemon
 ```
 
@@ -46,7 +46,7 @@ The host address and the port is first fetched from `wskey` key in the
 configuration file. More information is available [here](#configuration).
 However the subcommand has a number of flags to override the configuration file:
 
-```console
+```shell
 mvibes wskey daemon --host localhost --port 8765 --event-id 18
 ```
 
