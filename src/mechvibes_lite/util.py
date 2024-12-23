@@ -11,7 +11,7 @@ def get_config_path(app_name: str) -> pathlib.Path:
             config_dir = pathlib.Path.home() / "Library" / "Application Support"
         else:
             sys_config_dir = pathlib.Path("/etc") / app_name
-            if sys_config_dir:
+            if sys_config_dir.exists():
                 return sys_config_dir
 
             config_dir = pathlib.Path(
