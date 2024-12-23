@@ -94,7 +94,6 @@ def main() -> None:
     parser.add_argument(
         "--wskey-port",
     )
-    parser.add_argument("--event-id")
 
     subparsers = parser.add_subparsers(dest="subcommand", required=True)
 
@@ -116,6 +115,7 @@ def main() -> None:
     )
     wskey_subparser_daemon.add_argument("--host")
     wskey_subparser_daemon.add_argument("--port")
+    wskey_subparser_daemon.add_argument("--event-id")
     wskey_subparser_daemon.set_defaults(func=cmd_wskey_daemon)
 
     args = parser.parse_args()
