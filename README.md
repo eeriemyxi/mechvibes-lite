@@ -1,13 +1,16 @@
 # Mechvibes Lite
 Mechvibes Lite is a lightweight alternative to Mechvibes. It boasts full compatibility with the original version.
 
-# Documentation
+# [Documentation](https://mechvibes-lite.pages.dev/)
 Please visit <https://mechvibes-lite.pages.dev/> for documentation.
 
-# Installation
+# [Installation](https://mechvibes-lite.pages.dev/#installation)
 Please read the [relevant documentation](https://mechvibes-lite.pages.dev/#installation).
 
-# Usage
+# [Configuration](https://mechvibes-lite.pages.dev/#configuration)
+Please read the [relevant documentation](https://mechvibes-lite.pages.dev/#configuration).
+
+# [Usage](https://mechvibes-lite.pages.dev/#usage)
 Please read the [relevant documentation](https://mechvibes-lite.pages.dev/#usage).
 
 # Command-line Arguments
