@@ -26,8 +26,7 @@ When you do `mvibes daemon` it automatically starts a `wskey` daemon unless told
 otherwise. `wskey` daemon is essentially just a websocket server that sends the
 input events to connected clients.
 
-You can start a `wskey` daemon by doing either `mvibes-wskey daemon`, or `mvibes
-wskey daemon`.
+You can start a `wskey` daemon by doing `mvibes wskey daemon`.
 
 The idea is to create another user, give it access to input events, then run the
 `wskey` daemon from this account. This way your normal account is untouched and

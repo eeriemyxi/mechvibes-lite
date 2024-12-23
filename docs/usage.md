@@ -26,14 +26,10 @@ lets the main program know when to play which sound file. More advanced
 introduction below.
 
 Wskey under the hood is just a WebSocket server. You can start this daemon
-yourself by doing one of the following:
+yourself by doing the following:
 
 ```console
 mvibes wskey daemon
-```
-
-```console
-mvibes-wskey daemon
 ```
 
 Wskey daemon on Linux depends on the `evdev` package from Pypi repositories. For
