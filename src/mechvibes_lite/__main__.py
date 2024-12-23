@@ -1,6 +1,7 @@
 import argparse
 import asyncio
 import logging
+import pathlib
 import sys
 import threading
 
@@ -157,6 +158,18 @@ def main() -> None:
 
         config = struct.Configuration.from_config(config_path.read_text())
 
+        if args.theme_dir:
+            config.theme_dir = pathlib.Path(args.theme_dir).expanduser().resolve()
+        if args.theme_folder_name:
+            config.theme_folder_name = args.theme_folder_name
+            config.theme_path = config.theme_dir / config.theme_folder_name
+        if args.wskey_host:
+            config.wskey_host = args.wskey_host
+        if args.wskey_port:
+            config.wskey_port = args.wskey_port
+        if args.event_id:
+            config.event_id = util.parse_event_id(args.event_id)
+            config.event_path = config.event_path_base / config.event_id
     if args.subcommand == "wskey":
         args.func(
             args.host or config.wskey_host,
