@@ -115,7 +115,7 @@ def main() -> None:
     )
     wskey_subparser_daemon.add_argument("--host")
     wskey_subparser_daemon.add_argument("--port")
-    wskey_subparser_daemon.add_argument("--event-id")
+    wskey_subparser_daemon.add_argument("--event-id", default=None)
     wskey_subparser_daemon.set_defaults(func=cmd_wskey_daemon)
 
     args = parser.parse_args()
@@ -167,11 +167,11 @@ def main() -> None:
             config.wskey_host = args.wskey_host
         if args.wskey_port:
             config.wskey_port = args.wskey_port
-        if args.event_id:
+        if getattr(args, "event_id", None):
             config.event_id = util.parse_event_id(args.event_id)
             config.event_path = config.event_path_base / config.event_id
 
-    if args.event_id and sys.platform != "linux":
+    if getattr(args, "event_id", None) and sys.platform != "linux":
         log.error("The --event-id flag is only for Linux users.")
         exit(1)
 
