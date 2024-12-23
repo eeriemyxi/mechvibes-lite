@@ -3,6 +3,8 @@ import pathlib
 from dataclasses import dataclass
 from enum import Enum, auto
 
+from mechvibes_lite import util
+
 log = logging.getLogger(__name__)
 
 
@@ -21,6 +23,62 @@ class PlaybackType(Enum):
     @classmethod
     def from_config(cls, config: dict):
         return cls.from_str(config["key_define_type"])
+
+
+@dataclass
+class Configuration:
+    theme_dir: pathlib.Path | str
+    theme_folder_name: str
+    wskey_host: str
+    wskey_port: int
+
+    event_path_base: pathlib.Path | str = pathlib.Path("/dev/input/")
+    event_id: str = None
+
+    def __post_init__(self):
+        if isinstance(self.theme_dir, str):
+            self.theme_dir = pathlib.Path(self.theme_dir).expanduser().resolve()
+        if isinstance(self.event_path_base, str):
+            self.event_path_base = (
+                pathlib.Path(self.event_path_base).expanduser().resolve()
+            )
+
+        self.event_id = util.parse_event_id(self.event_id)
+
+        self.event_path = self.event_path_base / self.event_id
+        self.theme_path = self.theme_dir / self.theme_folder_name
+
+        self.ensure_files_exist()
+
+    def ensure_files_exist(self) -> None:
+        if not self.theme_dir.exists():
+            raise FileNotFoundError(
+                f"theme_dir specified as '{self.theme_dir}' but it doesn't exist."
+            )
+        if not self.theme_path.exists():
+            raise KeyError(
+                f"theme_folder_name specified as '{self.theme_folder_name}', but '{self.theme_path}' doesn't exist"
+            )
+
+    @classmethod
+    def from_config(cls, config: str):
+        import configparser
+        import sys
+
+        confparser = configparser.ConfigParser()
+        confparser.read_string(config)
+
+        event_id = None
+        if sys.platform == "linux":
+            event_id = confparser.get("general", "event_id")
+
+        return cls(
+            confparser.get("general", "theme_dir"),
+            confparser.get("theme", "folder_name"),
+            confparser.get("wskey", "host"),
+            confparser.get("wskey", "port"),
+            event_id=event_id,
+        )
 
 
 @dataclass

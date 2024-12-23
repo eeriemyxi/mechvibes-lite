@@ -16,7 +16,6 @@ dependencies = [
 
 [project.scripts]
 mvibes = "mechvibes_lite.__main__:main"
-mvibes-wskey = "mechvibes_lite.wskey.__main__:main"
 
 [build-system]
 requires = ["hatchling"]

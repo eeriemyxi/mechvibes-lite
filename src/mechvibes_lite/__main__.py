@@ -1,21 +1,20 @@
 import argparse
 import asyncio
 import logging
-import pathlib
+import sys
 import threading
 
 import pyglet.app
 import pyglet.media
+import websockets.exceptions
 from websockets.asyncio.client import connect
 
-from mechvibes_lite import audio, const, struct, util
-from mechvibes_lite.wskey.__main__ import parser as wskey_parser
+from mechvibes_lite import audio, const, struct, util, wskey
 
-LOG_LEVEL = logging.INFO
 log = logging.getLogger(__name__)
 
 
-async def daemon(theme_path, wskey_host, wskey_port) -> None:
+async def start_wskey_listener(theme_path, wskey_host, wskey_port) -> None:
     theme = struct.Theme.from_config(theme_path / "config.json", theme_path)
     keyplayer = audio.KeyPlayer(theme)
 
@@ -32,16 +31,30 @@ async def daemon(theme_path, wskey_host, wskey_port) -> None:
             continue
 
 
-def cmd_daemon(args) -> None:
-    if args.theme_dir:
-        const.THEME_DIR = args.theme_dir
-    if args.theme_folder_name:
-        const.THEME_FOLDER_NAME = args.theme_folder_name
-        const.THEME_PATH = const.THEME_DIR / const.THEME_FOLDER_NAME
+def ensure_required_flags(args) -> None:
+    required_flags = ["theme_dir", "theme_folder_name", "wskey_host", "wskey_port"]
+    if sys.platform == "linux":
+        required_flags.append("event_id")
+    for flag in required_flags:
+        if not hasattr(args, flag) or not getattr(args, flag):
+            raise ValueError(
+                f"'--{util.to_kebab(flag)}' flag was expected but not provided."
+            )
+
+
+def cmd_wskey_daemon(host, port, event_id=None) -> None:
+    try:
+        asyncio.run(wskey.start(host, port, event_id))
+    except KeyboardInterrupt:
+        log.info("Closing wskey...")
+        sys.exit()
+
+
+def cmd_daemon(theme_path, wskey_host, wskey_port) -> None:
     pyglet.options["headless"] = True
     thread = threading.Thread(
         target=asyncio.run,
-        args=[daemon(const.THEME_PATH, args.wskey_host, args.wskey_port)],
+        args=[start_wskey_listener(theme_path, wskey_host, wskey_port)],
         daemon=True,
     )
     thread.start()
@@ -49,7 +62,10 @@ def cmd_daemon(args) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Mechvibes Lite is an alternative to Mechvibes "
+        "(it plays sounds when you press keys)."
+    )
     parser.add_argument(
         "-L",
         "--log-level",
@@ -57,31 +73,98 @@ def main() -> None:
         type=str,
         default="INFO",
     )
-    subparsers = parser.add_subparsers()
-
-    subparsers.add_parser("wskey", parents=[wskey_parser], conflict_handler="resolve")
-
-    subparser_daemon = subparsers.add_parser("daemon")
-    subparser_daemon.add_argument("--wskey-host", default=const.WSKEY_HOST)
-    subparser_daemon.add_argument("--wskey-port", default=const.WSKEY_PORT)
-    subparser_daemon.add_argument(
-        "--theme-dir", default=const.THEME_DIR, type=pathlib.Path
+    parser.add_argument(
+        "--no-config",
+        help="Don't read config file from standard locations. "
+        "Will error if you don't provide required configuration as flags instead.",
+        action="store_true",
     )
-    subparser_daemon.add_argument(
-        "--theme-folder-name", default=const.THEME_FOLDER_NAME, type=pathlib.Path
+    parser.add_argument(
+        "--with-config",
+        help="Load this configuration instead of the one at the standard location. "
+        "Can be - for stdin.",
+        type=argparse.FileType("r"),
+    )
+    parser.add_argument("--theme-dir")
+    parser.add_argument("--theme-folder-name")
+    parser.add_argument(
+        "--wskey-host",
+    )
+    parser.add_argument(
+        "--wskey-port",
+    )
+    parser.add_argument("--event-id")
+
+    subparsers = parser.add_subparsers(dest="subcommand", required=True)
+
+    subparser_daemon = subparsers.add_parser(
+        "daemon", help="Run the keyboard input player as a daemon"
     )
     subparser_daemon.set_defaults(func=cmd_daemon)
+
+    subparser_wskey = subparsers.add_parser(
+        "wskey", help="WebSocket server for sending keyboard input"
+    )
+
+    wskey_subparsers = subparser_wskey.add_subparsers(dest="wskey", required=True)
+
+    # [FIXME] --host and --port pollutes the global namespace;
+    #         figure out something to have nested namespaces.
+    wskey_subparser_daemon = wskey_subparsers.add_parser(
+        "daemon", help="Run the server as a daemon"
+    )
+    wskey_subparser_daemon.add_argument("--host")
+    wskey_subparser_daemon.add_argument("--port")
+    wskey_subparser_daemon.set_defaults(func=cmd_wskey_daemon)
 
     args = parser.parse_args()
 
     LOG_LEVEL = args.log_level
     logging.basicConfig(**util.default_logging_config(LOG_LEVEL))
 
-    if not hasattr(args, "func"):
-        parser.print_help()
-        exit(1)
+    if args.with_config:
+        config = struct.Configuration.from_config(args.with_config.read())
 
-    args.func(args)
+    if args.no_config:
+        try:
+            ensure_required_flags(args)
+        except ValueError as e:
+            # [INFO] args[0] is basically the error message
+            log.error(e.args[0])
+            exit(1)
+        try:
+            config = struct.Configuration(
+                args.theme_dir,
+                args.theme_folder_name,
+                args.wskey_host,
+                args.wskey_port,
+                event_id=args.event_id,
+            )
+        except (KeyError, FileNotFoundError) as e:
+            log.error(e.args[0])
+            exit(1)
+
+    if not args.with_config and not args.no_config:
+        config_home = util.get_config_path(const.APP_NAME)
+        config_path = config_home / "config.ini"
+
+        if not config_home.exists():
+            log.error("Configuration directory not found at '%s'", config_home)
+            exit(1)
+        if not config_path.exists():
+            log.error("'config.ini' not found at '%s'", config_path)
+            exit(1)
+
+        config = struct.Configuration.from_config(config_path.read_text())
+
+    if args.subcommand == "wskey":
+        args.func(
+            args.host or config.wskey_host,
+            args.port or config.wskey_port,
+            config.event_path,
+        )
+    elif args.subcommand == "daemon":
+        args.func(config.theme_path, config.wskey_host, config.wskey_port)
 
     pyglet.app.run()
 

@@ -23,7 +23,14 @@ def get_config_path(app_name: str) -> pathlib.Path:
     return config_dir / app_name
 
 
+def to_kebab(string):
+    # fixme)) handle camel case maybe
+    return string.replace("_", "-")
+
+
 def parse_event_id(event_id):
+    if not event_id:
+        return None
     if event_id.isdigit():
         event_id = f"event{event_id}"
     return event_id
