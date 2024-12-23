@@ -43,10 +43,11 @@ def ensure_required_flags(args) -> None:
             )
 
 
-def cmd_wskey_daemon(host, port, event_id=None) -> None:
+def cmd_wskey_daemon(host, port, event_path=None) -> None:
     try:
-        asyncio.run(wskey.start(host, port, event_id))
+        asyncio.run(wskey.start(host, port, event_path))
     except KeyboardInterrupt:
+        sys.stdout.write("\n")
         log.info("Closing wskey...")
         sys.exit()
 
