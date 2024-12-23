@@ -60,7 +60,13 @@ def cmd_daemon(theme_path, wskey_host, wskey_port) -> None:
         daemon=True,
     )
     thread.start()
-    pyglet.app.run()
+
+    try:
+        pyglet.app.run()
+    except KeyboardInterrupt:
+        sys.stdout.write("\n")
+        log.info(f"Exiting {const.APP_NAME}...")
+        sys.exit()
 
 
 def main() -> None:
@@ -188,7 +194,7 @@ def main() -> None:
     elif args.subcommand == "daemon":
         args.func(config.theme_path, config.wskey_host, config.wskey_port)
 
-    pyglet.app.run()
+        args.func(config.theme_path, config.wskey_host, config.wskey_port)
 
 
 if __name__ == "__main__":
