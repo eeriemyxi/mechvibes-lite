@@ -66,4 +66,4 @@ To understand `wskey.*` options, it is recommended to refer to documentation
 available [here](usage.md#wskey).
 
 To undersand `wskey.event_id`, you should refer to documentation available
-[here](installation/linux.md#testing-access-for-input-event).
+[here](installation/linux.md#getting-access-to-input-events).

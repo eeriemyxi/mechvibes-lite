@@ -18,6 +18,12 @@ This program uses [scan codes](https://en.wikipedia.org/wiki/Scancode) to detect
 keyboard input. Scan codes are not readable to normal users out-of-the-box on
 Linux. Below are various methods to get access to scan codes on Linux.
 
+You may check whether you have access to the input events via the instructions
+[here](#testing-access-for-input-event).
+
+Once you confirm you have access to the input events, read
+[here](#what-to-do-next).
+
 ### Method I
 This is the easier and less secure method of making scan codes readable for
 processes running from your user account. First you need to add your user to the
