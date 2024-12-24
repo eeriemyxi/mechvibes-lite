@@ -24,6 +24,7 @@ Please read the [relevant documentation](https://mechvibes-lite.pages.dev/#usage
 usage: mvibes [-h] [-L LOG_LEVEL] [--no-config] [--with-config WITH_CONFIG]
               [--theme-dir THEME_DIR] [--theme-folder-name THEME_FOLDER_NAME]
               [--wskey-host WSKEY_HOST] [--wskey-port WSKEY_PORT] [--no-wskey]
+              [--version]
               {daemon,wskey} ...
 
 Mechvibes Lite is an alternative to Mechvibes (it plays sounds when you press
@@ -50,4 +51,5 @@ options:
   --wskey-host WSKEY_HOST
   --wskey-port WSKEY_PORT
   --no-wskey
+  --version, -V         show program's version number and exit
 ```
