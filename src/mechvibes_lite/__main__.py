@@ -1,5 +1,6 @@
 import argparse
 import asyncio
+import importlib.metadata
 import logging
 import pathlib
 import sys
@@ -102,6 +103,12 @@ def main() -> None:
         "--wskey-port",
     )
     parser.add_argument("--no-wskey", action="store_true", default=None)
+    parser.add_argument(
+        "--version",
+        "-V",
+        action="version",
+        version=importlib.metadata.version("mechvibes-lite"),
+    )
 
     subparsers = parser.add_subparsers(dest="subcommand", required=True)
 
