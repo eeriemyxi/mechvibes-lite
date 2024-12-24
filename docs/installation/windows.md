@@ -1,5 +1,5 @@
 ## Windows
-!!! important
+!!! info
     Minimum Python version required is `3.10`. Please check by running `python3
     --version`.
 

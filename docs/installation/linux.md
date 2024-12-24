@@ -1,5 +1,5 @@
 ## Installation
-!!! important
+!!! info
     Minimum Python version required is `3.10`. Please check by running `python3
     --version`.
 
@@ -34,9 +34,8 @@ instructions](#testing-access-for-input-event).
 
 ### Method II
 !!! warning 
-    This method is more involved and requires you to understand what you
-    are doing; please do not attempt it if all you do right now is copy-paste
-    random commands into your terminal.
+    This method is more involved, do not attempt it unless you
+    understand every step mentioned.
 
 When you do `mvibes daemon` it automatically starts a `wskey` daemon unless told
 otherwise. `wskey` daemon is essentially just a websocket server that sends the
@@ -51,16 +50,22 @@ Once the `wskey` daemon is running on the second account, you can simply tell
 `mvibes daemon` running on your usual account to use that websocket server to
 receive input events from.
 
-!!! note
-    The instructions below are for Ubuntu. Please adapt them for your system yourself.
-
 Create a new user:
+```shell
+usual-user:~$ sudo useradd -d /home/second-user -m second-user
 ```
-usual-user:~$ sudo adduser second-user
-```
+`second-user` is the username of the second account. `/home/second-user` is the
+path to the new user's home directory.
 
-`second-user` is the username of the second account. Please follow the
-instructions given to you by this command.
+!!! info 
+    On Debian-based systems (Ubuntu, Linux Mint, etc.), there is `adduser`
+    command which is more interactive and beginner friendly:
+
+    ```
+    usual-user:~$ sudo adduser second-user
+    ```
+    
+    Now answer the prompts on your screen.
 
 Add the new user to `input` group:
 
