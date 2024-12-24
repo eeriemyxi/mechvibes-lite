@@ -15,12 +15,12 @@ Please visit <https://mechvibes-lite.pages.dev/> for documentation.
 * [Documentation for Linux](https://mechvibes-lite.pages.dev/installation/linux/)
 
 # [Configuration](https://mechvibes-lite.pages.dev/configuration/)
-You can learn how to use this software
-[here](https://mechvibes-lite.pages.dev/configuration/).
+You need to setup a configuration file to use Mechvibes Lite. Instructions and
+guidance can be found [here](https://mechvibes-lite.pages.dev/configuration/).
 
 # [Usage](https://mechvibes-lite.pages.dev/usage/)
-You need to setup a configuration file to use Mechvibes Lite. Instructions and
-guidance can be found [here](https://mechvibes-lite.pages.dev/usage/).
+You can learn how to use this software
+[here](https://mechvibes-lite.pages.dev/usage/).
 
 # Command-line Arguments
 ```
