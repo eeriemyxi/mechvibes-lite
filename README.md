@@ -11,13 +11,16 @@ https://github.com/user-attachments/assets/3af7e7d6-dff7-414d-9ffc-c311231450ac
 Please visit <https://mechvibes-lite.pages.dev/> for documentation.
 
 # [Installation](https://mechvibes-lite.pages.dev/#installation)
-Please read the [relevant documentation](https://mechvibes-lite.pages.dev/#installation).
+* [Documentation for Windows](https://mechvibes-lite.pages.dev/installation/windows/)
+* [Documentation for Linux](https://mechvibes-lite.pages.dev/installation/linux/)
 
-# [Configuration](https://mechvibes-lite.pages.dev/#configuration)
-Please read the [relevant documentation](https://mechvibes-lite.pages.dev/#configuration).
+# [Configuration](https://mechvibes-lite.pages.dev/configuration/)
+You can learn how to use this software
+[here](https://mechvibes-lite.pages.dev/configuration/).
 
-# [Usage](https://mechvibes-lite.pages.dev/#usage)
-Please read the [relevant documentation](https://mechvibes-lite.pages.dev/#usage).
+# [Usage](https://mechvibes-lite.pages.dev/usage/)
+You need to setup a configuration file to use Mechvibes Lite. Instructions and
+guidance can be found [here](https://mechvibes-lite.pages.dev/usage/).
 
 # Command-line Arguments
 ```
