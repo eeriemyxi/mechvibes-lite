@@ -1,6 +1,6 @@
 ## Installation
 !!! important
-    Minimum Python version required is 3.10. Please check by running `python3
+    Minimum Python version required is `3.10`. Please check by running `python3
     --version`.
 
 Run the following command in a terminal:
