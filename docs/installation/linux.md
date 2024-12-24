@@ -6,7 +6,7 @@
 Run the following command in a terminal:
 
 ```shell
-python3 -m pip install --local git+https://github.com/eeriemyxi/mechvibes-lite
+user:~$ python3 -m pip install --local git+https://github.com/eeriemyxi/mechvibes-lite
 ```
 
 Now you should be able to do `mvibes --version` from your terminal. If not then
@@ -24,7 +24,7 @@ processes running from your user account. First you need to add your user to the
 `input` group:
 
 ```shell
-sudo usermod -aG input username
+user:~$ sudo usermod -aG input username
 ```
 Replace `username` with your account's username.
 
@@ -53,10 +53,10 @@ receive input events from.
 
 !!! note
     The instructions below are for Ubuntu. Please adapt them for your system yourself.
-    
+
 Create a new user:
 ```
-sudo adduser second-user
+usual-user:~$ sudo adduser second-user
 ```
 
 `second-user` is the username of the second account. Please follow the
@@ -65,16 +65,20 @@ instructions given to you by this command.
 Add the new user to `input` group:
 
 ```shell
-sudo usermod -aG input second-user
+usual-user:~$ sudo usermod -aG input second-user
 ```
 
 Log out and log back in. Now make sure your new account can read input events by
 reading [this](#testing-access-for-input-event). However instead of running
-`evtest` do `sudo -u second-user evtest`.
+`evtest` do:
+
+```shell
+usual-user:~$ sudo -u second-user evtest
+```
 
 Create a system-wide configuration directory for Mechvibes Lite:
 ```shell
-sudo cp -r ~/.config/mechvibes-lite/ /etc/mechvibes-lite
+usual-user:~$ sudo cp -r ~/.config/mechvibes-lite/ /etc/mechvibes-lite
 ```
 
 The command above will copy your local configuration file directory to `/etc`
@@ -84,20 +88,18 @@ to not have issues with file permissions.
 Install Mechvibes Lite on the new user account:
 
 ```shell
-sudo apt install python3-venv
-sudo -u second-user bash
-cd /home/second-user # or just cd
-/usr/bin/python3 -m venv mvibes-venv
-cd mvibes-venv
-source ./bin/activate
-pip install git+https://github.com/eeriemyxi/mechvibes-lite
-exit
+usual-user:~$ sudo apt install python3-venv
+usual-user:~$ sudo -iu second-user
+second-user:~$ python3 -m venv mvibes-venv
+second-user:~$ source mvibes-venv/bin/activate
+second-user:~$ pip install git+https://github.com/eeriemyxi/mechvibes-lite
+second-user:~$ deactivate && exit
 ```
 
 Now do this from the usual account to start the `wskey` server:
 
 ```shell
-sudo -u second-user /home/second-user/mvibes-venv/bin/mvibes-wskey daemon
+usual-user:~$ sudo -iu second-user mvibes-venv/bin/mvibes wskey daemon
 ```
 
 ### Method III
@@ -112,12 +114,12 @@ no desire to make instructions for this. Contributions welcome.
 Install `evtest` package:
 
 ```
-sudo apt install evtest
+user:~$ sudo apt install evtest
 ```
 
 Run `evtest` then select a device from the list:
 ```
-❯ evtest
+user:~$ evtest
 No device specified, trying to scan all of /dev/input/event*
 Not running as root, no devices may be available.
 Available devices:
