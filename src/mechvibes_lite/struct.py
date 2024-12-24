@@ -70,10 +70,10 @@ class Configuration:
 
         event_id = None
         if sys.platform == "linux":
-            event_id = confparser.get("general", "event_id")
+            event_id = confparser.get("wskey", "event_id")
 
         return cls(
-            confparser.get("general", "theme_dir"),
+            confparser.get("theme", "theme_dir"),
             confparser.get("theme", "folder_name"),
             confparser.get("wskey", "host"),
             confparser.get("wskey", "port"),
