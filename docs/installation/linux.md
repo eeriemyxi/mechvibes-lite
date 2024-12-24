@@ -10,8 +10,8 @@ user:~$ python3 -m pip install --local git+https://github.com/eeriemyxi/mechvibe
 ```
 
 Now you should be able to do `mvibes --version` from your terminal. If not then
-I am afraid you have a messy Python3 setup on your system. However if everything
-is fine then please follow the next instructions in the next header.
+I am afraid you have a messy Python setup on your system. However if everything
+is fine then please follow the instructions from the next header.
 
 ## Getting Access to Input Events
 This program uses [scan codes](https://en.wikipedia.org/wiki/Scancode) to detect
