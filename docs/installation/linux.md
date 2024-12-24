@@ -1,4 +1,19 @@
-## Linux
+## Installation
+!!! important
+    Minimum Python version required is 3.10. Please check by running `python3
+    --version`.
+
+Run the following command in a terminal:
+
+```shell
+python3 -m pip install --local git+https://github.com/eeriemyxi/mechvibes-lite
+```
+
+Now you should be able to do `mvibes --version` from your terminal. If not then
+I am afraid you have a messy Python3 setup on your system. However if everything
+is fine then please follow the next instructions in the next header.
+
+## Getting Access to Input Events
 This program uses [scan codes](https://en.wikipedia.org/wiki/Scancode) to detect
 keyboard input. Scan codes are not readable to normal users out-of-the-box on
 Linux. Below are various methods to get access to scan codes on Linux.
@@ -18,9 +33,10 @@ Then log out and log back in. Now you should have read access to events in
 instructions](#testing-access-for-input-event).
 
 ### Method II
-!!! warning
-    This method is more involved and requires much more knowledge about what
-    you are doing. Do not attempt it until you do.
+!!! warning 
+    This method is more involved and requires you to understand what you
+    are doing; please do not attempt it if all you do right now is copy-paste
+    random commands into your terminal.
 
 When you do `mvibes daemon` it automatically starts a `wskey` daemon unless told
 otherwise. `wskey` daemon is essentially just a websocket server that sends the
@@ -127,3 +143,8 @@ Event: time 1734882563.557881, -------------- SYN_REPORT ------------
 Event: time 1734882563.726942, type 1 (EV_KEY), code 18 (KEY_E), value 1
 Event: time 1734882563.726942, -------------- SYN_REPORT ------------
 ```
+
+# What To Do Next?
+Now that you access to input events, you will have to add `wskey.event_id`
+option in your configuration file. More in-depth explanation is
+[here](../configuration.md).
