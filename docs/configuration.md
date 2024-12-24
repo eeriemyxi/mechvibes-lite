@@ -5,15 +5,13 @@
 
 ## Example Configuration File
 ```ini
-[general]
-theme_dir = ~/.config/mechvibes-lite/themes
-event_id = 17
-
 [wskey]
 host = localhost
 port = 6969
+event_id = 17
 
 [theme]
+theme_dir = ~/.config/mechvibes-lite/themes
 folder_name = nk-cream
 ```
 This software uses `.ini` format for configuration.
