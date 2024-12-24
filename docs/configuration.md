@@ -55,8 +55,8 @@ information.
 ## Description of the Options
 | Key Name | Description |
 |---|---|
-| `theme.folder_name` | The name of the theme folder that Mvibes is supposed to play. |
-| `theme.theme_dir` | A string that points to an _existing_ directory where themes compatible with original Mechvibes are available. |
+| `theme.theme_dir` | A string that points to an _existing_ directory where themes compatible with original Mechvibes are available.
+| `theme.folder_name` | The name of the theme folder that Mvibes is supposed to play. A folder with this name must be available in the directory specified via `theme.theme_dir` option. |
 | `wskey.host` | The hostname of the Wskey server. |
 | `wskey.port` | The port of the Wskey server.  |
 | `wskey.event_id`  | Only applicable for Linux. The ID of the input event to listen to. If the string is an integer then it is converted to `event{id}` where `id` is the integer.|
