@@ -1,7 +1,7 @@
 import argparse
 import asyncio
 import importlib.metadata
-import logging
+import kisesi
 import pathlib
 import sys
 import threading
@@ -13,7 +13,7 @@ from websockets.asyncio.client import connect
 
 from mechvibes_lite import audio, const, struct, util, wskey
 
-log = logging.getLogger(__name__)
+log = kisesi.get_logger(__name__)
 
 
 async def start_wskey_listener(theme_path, wskey_host, wskey_port) -> None:
@@ -136,7 +136,7 @@ def main() -> None:
     args = parser.parse_args()
 
     LOG_LEVEL = args.log_level
-    logging.basicConfig(**util.default_logging_config(LOG_LEVEL))
+    kisesi.basic_config(**util.default_logging_config(LOG_LEVEL))
 
     if args.with_config:
         config = struct.Configuration.from_config(args.with_config.read())

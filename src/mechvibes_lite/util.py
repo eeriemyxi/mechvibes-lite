@@ -39,6 +39,4 @@ def parse_event_id(event_id):
 def default_logging_config(log_level):
     return dict(
         level=log_level.upper(),
-        format="[%(asctime)s] [%(levelname)s] %(message)s",
-        datefmt="%H:%M:%S",
     )

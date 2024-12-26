@@ -1,4 +1,4 @@
-import logging
+import kisesi
 import pathlib
 from functools import partial
 
@@ -7,7 +7,7 @@ import pyglet.media as media
 
 from mechvibes_lite import struct
 
-log = logging.getLogger(__name__)
+log = kisesi.get_logger(__name__)
 
 
 class SingleAudioKeyPlayer:

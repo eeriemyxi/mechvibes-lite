@@ -1,11 +1,11 @@
-import logging
+import kisesi
 import pathlib
 from dataclasses import dataclass
 from enum import Enum, auto
 
 from mechvibes_lite import util
 
-log = logging.getLogger(__name__)
+log = kisesi.get_logger(__name__)
 
 
 class PlaybackType(Enum):

@@ -158,6 +158,15 @@ wheels = [
 ]
 
 [[package]]
+name = "kisesi"
+version = "0.3.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d7/49/18fea33c5ff0aa762fa65b8d50205b23a912520811ede088f5ba8fc6ec3a/kisesi-0.3.0.tar.gz", hash = "sha256:4d4c545791cf9cef2d52159c31e15e174ebc8979044fabc8897d868ac10a9aaf", size = 3440 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e9/75/b8cda91e6bcc23320eb5835881f659507b08e9dfe67f9a399ae7ac36c1a7/kisesi-0.3.0-py3-none-any.whl", hash = "sha256:0912209bf4c14f5cfa291e5256391e58c0729010203da51101af791f8d7ec2ef", size = 4205 },
+]
+
+[[package]]
 name = "markdown"
 version = "3.7"
 source = { registry = "https://pypi.org/simple" }
@@ -226,11 +235,12 @@ wheels = [
 
 [[package]]
 name = "mechvibes-lite"
-version = "0.3.0"
+version = "0.3.1"
 source = { editable = "." }
 dependencies = [
     { name = "evdev", marker = "sys_platform == 'linux'" },
     { name = "keyboard", marker = "sys_platform == 'win32'" },
+    { name = "kisesi" },
     { name = "pyglet" },
     { name = "websockets" },
 ]
@@ -245,6 +255,7 @@ dev = [
 requires-dist = [
     { name = "evdev", marker = "sys_platform == 'linux'", specifier = ">=1.7.1" },
     { name = "keyboard", marker = "sys_platform == 'win32'", specifier = ">=0.13.5" },
+    { name = "kisesi", specifier = ">=0.3.0" },
     { name = "pyglet", specifier = ">=2.0.20" },
     { name = "websockets", specifier = ">=14.1" },
 ]

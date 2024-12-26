@@ -1,5 +1,5 @@
-import logging
+import kisesi
 
-log = logging.getLogger(__name__)
+log = kisesi.get_logger(__name__)
 
 APP_NAME = "mechvibes-lite"

@@ -1,12 +1,12 @@
-import logging
+import kisesi
 import sys
 from functools import partial
 
 from websockets.asyncio.server import serve
 
-log = logging.getLogger(__name__)
+log = kisesi.get_logger(__name__)
 
-logging.getLogger("websockets").setLevel(logging.INFO)
+kisesi.get_logger("websockets").set_level(kisesi.INFO)
 
 
 async def keyboard_mod_sender(websocket) -> None:
