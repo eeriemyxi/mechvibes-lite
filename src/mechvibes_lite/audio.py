@@ -1,7 +1,7 @@
-import kisesi
 import pathlib
 from functools import partial
 
+import kisesi
 import pyglet.clock
 import pyglet.media as media
 

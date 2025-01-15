@@ -5,7 +5,9 @@ import sys
 
 def get_config_path(app_name: str) -> pathlib.Path:
     if os.name == "nt":
-        config_dir = os.getenv("APPDATA", pathlib.Path.home() / "AppData" / "Roaming")
+        config_dir = pathlib.Path(
+            os.getenv("APPDATA", pathlib.Path.home() / "AppData" / "Roaming")
+        )
     elif os.name == "posix":
         if sys.platform == "darwin":
             config_dir = pathlib.Path.home() / "Library" / "Application Support"

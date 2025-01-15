@@ -1,22 +1,23 @@
 import argparse
 import asyncio
 import importlib.metadata
-import kisesi
 import pathlib
 import sys
 import threading
 
-import pyglet.app
-import pyglet.media
+import kisesi
 import websockets.exceptions
 from websockets.asyncio.client import connect
 
-from mechvibes_lite import audio, const, struct, util, wskey
+from mechvibes_lite import const, struct, util, wskey
 
 log = kisesi.get_logger(__name__)
 
 
 async def start_wskey_listener(theme_path, wskey_host, wskey_port) -> None:
+    from mechvibes_lite import audio
+
+    log.debug(f"Started wskey listener {wskey_host=} {wskey_port=}")
     theme = struct.Theme.from_config(theme_path / "config.json", theme_path)
     keyplayer = audio.KeyPlayer(theme)
 
@@ -24,6 +25,7 @@ async def start_wskey_listener(theme_path, wskey_host, wskey_port) -> None:
         f"ws://{wskey_host}:{wskey_port}", ping_timeout=None
     ):
         try:
+            log.debug("Got a connection...")
             async for message in websocket:
                 code = int(message)
                 log.debug("Received scan code: %s", code)
@@ -54,6 +56,10 @@ def cmd_wskey_daemon(host, port, event_path=None) -> None:
 
 
 def cmd_daemon(theme_path, wskey_host, wskey_port) -> None:
+    import pyglet.app
+    import pyglet.media
+
+    log.debug("Starting daemon")
     pyglet.options["headless"] = True
     thread = threading.Thread(
         target=asyncio.run,
@@ -154,7 +160,7 @@ def main() -> None:
                 args.theme_folder_name,
                 args.wskey_host,
                 args.wskey_port,
-                event_id=args.event_id,
+                event_id=getattr(args, "event_id", None),
             )
         except (KeyError, FileNotFoundError) as e:
             log.error(e.args[0])

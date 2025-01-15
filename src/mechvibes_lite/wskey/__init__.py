@@ -1,7 +1,8 @@
-import kisesi
+import asyncio
 import sys
 from functools import partial
 
+import kisesi
 from websockets.asyncio.server import serve
 
 log = kisesi.get_logger(__name__)
@@ -13,14 +14,21 @@ async def keyboard_mod_sender(websocket) -> None:
     log.debug("Sending keys from keyboard_mod_sender")
     import keyboard
 
+    loop = asyncio.get_running_loop()
+
     while True:
-        event = keyboard.read_event()
+        try:
+            event = await loop.run_in_executor(None, keyboard.read_event)
+        except RuntimeError:
+            await asyncio.sleep(0.1)
+            continue
+
         log.debug("Got event: %s", event)
 
         if event.event_type is not keyboard.KEY_UP:
             continue
 
-        log.debug("Sending scancode from event: %s", event)
+        log.debug(f"Sending {event.scan_code=} from {event=}")
 
         await websocket.send(str(event.scan_code))
 
@@ -30,8 +38,6 @@ async def evdev_sender(websocket, *, event_path) -> None:
     import evdev
 
     device = evdev.InputDevice(event_path)
-
-    await websocket.send(str(1))
 
     for event in device.read_loop():
         if event.type != evdev.ecodes.EV_KEY:
@@ -60,5 +66,6 @@ async def start(host, port, event_path=None) -> None:
     else:
         raise NotImplementedError(f"No listener for {sys.platform} yet")
 
+    log.debug(f"Serving wskey on {host=} {port=}")
     server = await serve(sender, host, port)
     await server.serve_forever()
