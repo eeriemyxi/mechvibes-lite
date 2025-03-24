@@ -15,6 +15,7 @@ async def keyboard_mod_sender(websocket) -> None:
     import keyboard
 
     loop = asyncio.get_running_loop()
+    last_scan_code = None
 
     while True:
         try:
@@ -25,11 +26,16 @@ async def keyboard_mod_sender(websocket) -> None:
 
         log.debug("Got event: %s", event)
 
-        if event.event_type is not keyboard.KEY_UP:
+        if event.event_type is keyboard.KEY_UP:
+            last_scan_code = None
             continue
 
-        log.debug(f"Sending {event.scan_code=} from {event=}")
+        if event.scan_code == last_scan_code or event.event_type is not keyboard.KEY_DOWN:
+            continue
 
+        last_scan_code = event.scan_code
+
+        log.debug(f"Sending {event.scan_code=} from {event=}")
         await websocket.send(str(event.scan_code))
 
 
