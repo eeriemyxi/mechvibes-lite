@@ -39,6 +39,62 @@ Then log out and log back in. Now you should have read access to events in
 instructions](#testing-access-for-input-event).
 
 ### Method II
+The second method is to use a Docker container to run the Wskey daemon then
+forward the port to the host machine. We will mount the `/dev/input` directory
+as read-only in a privileged container for this method.
+
+The project comes with a `compose.yml` and `Dockerfile` to remedy this method.
+
+As a prerequisite, you will need to install Docker on your system. You can do so
+by going to <https://www.docker.com/> and downloading the installer for your
+platform. It is possible to follow this guide on all platforms supported by
+Docker but we will be assuming that you use Linux.
+
+!!! note 
+    If you are an experienced Linux user, you may also try installing it
+    from your package manager instead. 
+    
+Once installed, clone the source code of Mechvibes Lite using Git then CD to it:
+
+```console
+user:~$ git clone https://github.com/eeriemyxi/mechvibes-lite
+user:~$ cd mechvibes-lite
+```
+
+!!! note 
+    The commnad below assumes that you store your configuration at the
+    standard configuration location, if not then you will have to modify the
+    `volumes` section in the `compose.yml` section and the `Dockerfile` file
+    too.
+
+Then we run the Docker service like so:
+```console
+user:~$ docker compose -p wskey-server up -d
+```
+
+By default the server runs on the port `4958`. You can change it by exporting
+`WSKEY_PORT` environment variable. Docker seem to support `.env` files too, but
+I haven't tested.
+
+!!! tip
+    You can omit the `-d` (stands for `--detach`) when starting the service to avoid detaching it.
+
+!!! tip
+    To see if everything is working well for the Wskey server, you can then run:
+    ```console
+    user:~$ docker compose -p wskey-server logs -f
+    ```
+    This command should from anywhere due to `-p wskey-server logs`.
+
+To connect to the Docker container, you can do something like this:
+```console
+user:~$ mvibes -LDEBUG --no-wskey --wskey-port 4958 daemon
+```
+
+That's all. Mechvibes Lite should now be able listen to your event id's key presses
+(on the usual Linux installation).
+
+### Method III
 !!! warning 
     This method is more involved, do not attempt it unless you
     understand every step mentioned.
@@ -113,13 +169,6 @@ Now do this from the usual account to start the `wskey` server:
 usual-user:~$ sudo -iu second-user mvibes-venv/bin/mvibes wskey daemon
 ```
 
-### Method III
-It would be possible to create a Linux container (using Docker, Podman, whatever
-else) just for Mechvibes Lite then mount `/dev/input/` as read-only and then
-just start the `wskey` server (make sure to forward the ports to the parent
-system) or the whole app from the container (in that case you'd make sure to
-have your display server accessible from within the container). However I have
-no desire to make instructions for this. Contributions welcome.
 
 ## Testing Access for Input Event
 Install `evtest` package:
