@@ -238,6 +238,7 @@ name = "mechvibes-lite"
 version = "0.3.2"
 source = { editable = "." }
 dependencies = [
+    { name = "click" },
     { name = "evdev", marker = "sys_platform == 'linux'" },
     { name = "keyboard", marker = "sys_platform == 'win32'" },
     { name = "kisesi" },
@@ -253,6 +254,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "click", specifier = ">=8.1.8" },
     { name = "evdev", marker = "sys_platform == 'linux'", specifier = ">=1.7.1" },
     { name = "keyboard", marker = "sys_platform == 'win32'", specifier = ">=0.13.5" },
     { name = "kisesi", specifier = ">=0.3.0" },

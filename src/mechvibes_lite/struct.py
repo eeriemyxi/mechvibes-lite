@@ -121,9 +121,11 @@ class Theme:
             id=config["id"],
             type=pl_type,
             includes_numpad=config["includes_numpad"],
-            sound=base_path / config["sound"]
-            if pl_type is PlaybackType.SINGLE_FILE
-            else None,
+            sound=(
+                base_path / config["sound"]
+                if pl_type is PlaybackType.SINGLE_FILE
+                else None
+            ),
             defines=defines,
             base_path=base_path,
         )
