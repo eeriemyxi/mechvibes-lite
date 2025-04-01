@@ -46,12 +46,13 @@ class Configuration:
 
         self.event_id = util.parse_event_id(self.event_id)
 
-        self.event_path = (
-            self.event_path_base / self.event_id if self.event_id else None
-        )
         self.theme_path = self.theme_dir / self.theme_folder_name
 
         self.ensure_files_exist()
+
+    @property
+    def event_path(self):
+        return self.event_path_base / self.event_id if self.event_id else None
 
     def ensure_files_exist(self) -> None:
         if not self.theme_dir.exists():
@@ -121,9 +122,11 @@ class Theme:
             id=config["id"],
             type=pl_type,
             includes_numpad=config["includes_numpad"],
-            sound=base_path / config["sound"]
-            if pl_type is PlaybackType.SINGLE_FILE
-            else None,
+            sound=(
+                base_path / config["sound"]
+                if pl_type is PlaybackType.SINGLE_FILE
+                else None
+            ),
             defines=defines,
             base_path=base_path,
         )
