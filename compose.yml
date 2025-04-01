@@ -1,0 +1,13 @@
+name: mechvibes-lite
+
+services:
+  wskey:
+    build:
+      context: .
+    volumes:
+      - /dev/input:/dev/input:ro
+      - ${XDG_CONFIG_HOME:-${HOME}/config}/mechvibes-lite:/root/.config/mechvibes-lite
+    ports:
+      - "${WSKEY_PORT:-4958}:80"
+    privileged: true
+      
