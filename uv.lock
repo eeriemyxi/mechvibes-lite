@@ -246,6 +246,12 @@ dependencies = [
     { name = "websockets" },
 ]
 
+[package.optional-dependencies]
+dev = [
+    { name = "mkdocs" },
+    { name = "mkdocs-material" },
+]
+
 [package.dev-dependencies]
 dev = [
     { name = "mkdocs" },
@@ -258,6 +264,8 @@ requires-dist = [
     { name = "evdev", marker = "sys_platform == 'linux'", specifier = ">=1.7.1" },
     { name = "keyboard", marker = "sys_platform == 'win32'", specifier = ">=0.13.5" },
     { name = "kisesi", specifier = ">=0.3.0" },
+    { name = "mkdocs", marker = "extra == 'dev'", specifier = ">=1.6.1" },
+    { name = "mkdocs-material", marker = "extra == 'dev'", specifier = ">=9.5.49" },
     { name = "pyglet", specifier = ">=2.0.20" },
     { name = "websockets", specifier = ">=14.1" },
 ]
