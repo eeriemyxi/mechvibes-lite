@@ -46,12 +46,13 @@ class Configuration:
 
         self.event_id = util.parse_event_id(self.event_id)
 
-        self.event_path = (
-            self.event_path_base / self.event_id if self.event_id else None
-        )
         self.theme_path = self.theme_dir / self.theme_folder_name
 
         self.ensure_files_exist()
+
+    @property
+    def event_path(self):
+        return self.event_path_base / self.event_id if self.event_id else None
 
     def ensure_files_exist(self) -> None:
         if not self.theme_dir.exists():
