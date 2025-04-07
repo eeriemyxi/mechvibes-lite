@@ -23,6 +23,9 @@ guidance can be found [here](https://mechvibes-lite.pages.dev/configuration/).
 You can learn how to use this software
 [here](https://mechvibes-lite.pages.dev/usage/).
 
+# Contributing
+See [`CONTRIBUTING.md`](CONTRIBUTING.md). Thank you.
+
 # Command-line Arguments
 ```
 Usage: mvibes [OPTIONS] COMMAND [ARGS]...
