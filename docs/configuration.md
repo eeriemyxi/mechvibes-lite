@@ -65,5 +65,8 @@ information.
 To understand `wskey.*` options, it is recommended to refer to documentation
 available [here](usage.md#wskey).
 
+To understand `theme.*` options, it is recommended to refer to documentation
+available [here](themes.md).
+ 
 To undersand `wskey.event_id`, you should refer to documentation available
 [here](installation/linux.md#getting-access-to-input-events).

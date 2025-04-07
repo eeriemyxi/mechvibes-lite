@@ -11,6 +11,7 @@ nav:
         - installation/linux.md
     - Usage: usage.md
     - Configuration: configuration.md
+    - Themes: themes.md
 theme:
     name: material
     palette:
