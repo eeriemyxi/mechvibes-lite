@@ -1,6 +1,6 @@
 ## Where to Get Themes
 There is a registry for these themes that are hosted by the original Mechvibes.
-You may check it out by [here](https://mechvibes.com/sound-packs/).
+You may check it out by going [here](https://mechvibes.com/sound-packs/).
 
 You can pick a theme there, then click on its respective <button class="learnmore-btn">Learn more</button> button. 
 
