@@ -1,4 +1,5 @@
 version = 1
+revision = 1
 requires-python = ">=3.10"
 
 [[package]]
@@ -235,7 +236,7 @@ wheels = [
 
 [[package]]
 name = "mechvibes-lite"
-version = "0.3.2"
+version = "0.4.0"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
@@ -252,12 +253,6 @@ dev = [
     { name = "mkdocs-material" },
 ]
 
-[package.dev-dependencies]
-dev = [
-    { name = "mkdocs" },
-    { name = "mkdocs-material" },
-]
-
 [package.metadata]
 requires-dist = [
     { name = "click", specifier = ">=8.1.8" },
@@ -269,12 +264,7 @@ requires-dist = [
     { name = "pyglet", specifier = ">=2.0.20" },
     { name = "websockets", specifier = ">=14.1" },
 ]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "mkdocs", specifier = ">=1.6.1" },
-    { name = "mkdocs-material", specifier = ">=9.5.49" },
-]
+provides-extras = ["dev"]
 
 [[package]]
 name = "mergedeep"
