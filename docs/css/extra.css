@@ -1,5 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap");
 
+p > a {
+    position: relative;
+    padding: .05em .45em;
+    border-radius: .7em;
+    z-index: 1;
+}
+
+p > a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--md-primary-fg-color);
+    z-index: -1;
+    opacity: .25;
+    border-radius: inherit;
+    transition: box-shadow 10s ease-in;
+}
+
+p > a:hover::before {
+    background-color: var(--md-accent-fg-color);
+}
+
 .md-typeset code {
     font-family: "JetBrains Mono", monospace;
     font-size: 1.0em;
