@@ -41,13 +41,13 @@ class SingleAudioKeyPlayer:
 
 
 class MultiAudioKeyPlayer:
-    def __init__(self, base_path: pathlib.Path, defines: dict[int, str]):
+    def __init__(self, base_path: pathlib.Path, defines: dict[int, str | pathlib.Path]):
         self.base_path = base_path
         self.defines = defines
         self.sources = self.get_sources(self.defines)
 
-    def get_sources(self, defines: dict[int, str]):
-        return {s: media.load(s, streaming=False) for s in set(defines.values())}
+    def get_sources(self, defines: dict[int, str | pathlib.Path]):
+        return {s: media.load(str(s), streaming=False) for s in set(defines.values())}
 
     def play_for(self, scan_code: int) -> None:
         log.debug(f"Playing for {scan_code=}")
