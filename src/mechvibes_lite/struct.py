@@ -46,9 +46,11 @@ class Configuration:
 
         self.event_id = util.parse_event_id(self.event_id)
 
-        self.theme_path = self.theme_dir / self.theme_folder_name
-
         self.ensure_files_exist()
+    
+    @property
+    def theme_path(self):
+        return self.theme_dir / self.theme_folder_name
 
     @property
     def event_path(self):
