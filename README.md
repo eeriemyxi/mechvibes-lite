@@ -3,10 +3,10 @@ Mechvibes Lite is a lightweight alternative to Mechvibes. It boasts full
 compatibility with the original version.
 
 # Demo
-https://github.com/user-attachments/assets/3af7e7d6-dff7-414d-9ffc-c311231450ac
-
-> [!NOTE]
+> [!WARNING]
 > You browser might be muting the embedded video's audio by default.
+
+https://github.com/user-attachments/assets/0256b724-e939-4003-91aa-9746bf20ef6e
 
 # [Documentation](https://mechvibes-lite.pages.dev/)
 Please visit <https://mechvibes-lite.pages.dev/> for documentation.
